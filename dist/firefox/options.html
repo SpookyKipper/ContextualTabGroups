@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Islands for Chrome Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .option-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+            margin-left: 24px;
+            margin-bottom: 0;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        #save {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #c58af9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #save:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contextual Tab Groups Options</h1>
+    
+    <div class="option-container">
+      <label for="auto_created_group_name">
+          Name for automatically created groups (Default)
+          <input type="text" id="auto_created_group_name" value="%domain%">
+          <p class="note">Leave empty for none</p>
+          <p class="note">Available Placeholders: <code>%domain%</code></p>
+      </label>
+  </div>
+
+
+  <div class="option-container">
+    <label for="auto_created_group_name_search_engine">
+        Name for automatically created groups (Search Engines)
+        <input type="text" id="auto_created_group_name_search_engine" value="%search_query%">
+        <p class="note">Leave empty to use default</p>
+        <p class="note">Available Placeholders: <code>%search_query%</code>, <code>%domain%</code> </p><p> </p>
+        <p class="note">Supported Search Engines:<br>Google, Bing, BraveSearch, Ecosia, DuckDuckGo, Ask.com, Yahoo, Startpage, Baidu, YouTube</p><p> </p>
+        <p class="note">Note for Startpage:<br>
+                    1. Experimental, may not work<br>
+                    2. Please change "HTTP request method" to "GET" at <a href="https://www.startpage.com/do/settings" target="_blank">https://www.startpage.com/do/settings</a>.
+        </p>
+    </label>
+</div>
+
+    <div class="option-container">
+        <label>
+            <input type="checkbox" id="auto_disband_group">
+            Disband Groups with only 1 tab in it
+        </label>
+        <p class="note">May lag while closing tabs if there are too many groups</p>
+    </div>
+
+    <div id="status"></div>
+    <button id="save">Save Changes</button>
+
+    <script src="options.js"></script>
+</body>
+</html>

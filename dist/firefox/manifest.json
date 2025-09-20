@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Contextual Tab Groups - Auto create groups when opening a new tab",
+  "short_name": "Contextual Tab Groups",
+  "description": "Group tabs by context for you automatically. Inspired by Opera One.",
+  "version": "1.5.1",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "tab_islands.png"
+  },
+  "author": "Spooky Kipper",
+  "homepage_url": "https://spooky.hk/",
+  "icons": {
+    "16": "tab_islands.png",
+    "32": "tab_islands.png",
+    "64": "tab_islands.png",
+    "128": "tab_islands.png"
+  },
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "newTabInGroup": {
+      "description": "New tab in Group / Create a new group",
+      "suggested_key": {
+        "default": "Alt+T"
+      }
+    }
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tabislands@spookysrv.com"
+    }
+  }
+}

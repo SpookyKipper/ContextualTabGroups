@@ -80,7 +80,7 @@ const nameTabGroup = (groupId, url) => {
 // Check if pending url is here //
 const groupTabs = (tab) => {
     console.log(tab);
-    if ((typeof (tab.pendingUrl) != "undefined" && tab.pendingUrl !== "")) {
+    if ((typeof (tab.pendingUrl) != "undefined" && tab.pendingUrl !== "") || (typeof (tab.url) != "undefined" && tab.url !== "")) {
         groupTabsAction(tab);
     } else {
         setTimeout(() => {
@@ -96,7 +96,7 @@ const checkTab = (tab) => {
 }
 // actually group the tabs //
 const groupTabsAction = (tab) => {
-    if (tab.openerTabId && !(tab.pendingUrl.includes("chrome://")) && !(tab.pendingUrl.includes("extension://"))&& !(tab.pendingUrl.includes("edge://")) && !(tab.pendingUrl.includes("ntp.msn")) && tab.groupId === -1) {
+    if (tab.openerTabId && !(tab.pendingUrl.includes("chrome://")) && !(tab.pendingUrl.includes("extension://")) && !(tab.pendingUrl.includes("edge://")) && !(tab.pendingUrl.includes("moz-extension:")) && !(tab.pendingUrl.includes("about:")) && !(tab.pendingUrl.includes("ntp.msn")) && tab.groupId === -1) {
         chrome.tabs.get(tab.openerTabId, (openerTab) => {
             if (!openerTab.pinned) {
                 chrome.tabs.group({
@@ -122,7 +122,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
         { auto_disband_group: true },
         (items) => {
             if (items.auto_disband_group) {
-                setTimeout(() => {
+                // setTimeout(() => {
                     chrome.tabGroups.query({}, (info) => {
                         info.forEach(element => {
                             chrome.tabs.query({ groupId: element.id }, (tabs) => {
@@ -132,11 +132,10 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
                             });
                         });
                     })
-                }, 50);
+                // }, 50);
             }
         }
     );
-    
 });
 
 
@@ -151,7 +150,7 @@ chrome.commands.onCommand.addListener((command) => {
                     if (tab.groupId >= 0) {
                         chrome.tabs.group({ tabIds: [newtab.id], groupId: tab.groupId })
                     } else {
-                        chrome.tabs.group({ tabIds: [newtab.id, tab.id] }, (groupId) => {
+                        chrome.tabs.group({ tabIds: [tab.id, newtab.id] }, (groupId) => {
                             nameTabGroup(groupId, tab.url);
                         })
                     }
