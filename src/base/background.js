@@ -8,7 +8,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
   }
 
-
   setTimeout(() => {
     tabMaps.set(tabId, tab);
   }, 50);
@@ -22,8 +21,9 @@ chrome.tabs.onCreated.addListener((tab) => {
 
 // Listen for tab removal from group or group updates
 chrome.tabs.onRemoved.addListener((tabId) => {
+  // console.log("Tab closed: ", tabId);
   const tabProp = tabMaps.get(tabId);
-
+  // console.log(tabProp);
   if (typeof tabProp != "undefined" && tabProp.groupId >= 0) {
     disbandLoneGroup(tabProp.groupId);
   }
@@ -42,10 +42,16 @@ chrome.tabs.onDetached.addListener((tab) => {
   });
 });
 
-function disbandLoneGroup(groupId) {
+function disbandLoneGroup(groupId, retries = 0) {
   chrome.tabs.query({ groupId: groupId }, (tabs) => {
-    if (tabs.length == 1) {
+    // console.log(tabs);
+    if (tabs.length === 1) {
       safeUngroupTab(tabs[0].id);
+    } else if (tabs.length === 2 && browser && retries <= 20) {
+      // Firefox takes a while to update
+      setTimeout(() => {
+        disbandLoneGroup(groupId, retries + 1);
+      }, 5);
     }
   });
 }
@@ -155,7 +161,7 @@ const nameTabGroup = (groupId, url) => {
 // Group Tabs //
 // Check if pending url is here //
 const groupTabs = (tab) => {
-  console.log(tab);
+  // console.log(tab);
   if (
     (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (typeof tab.url != "undefined" && tab.url !== "")
@@ -183,6 +189,13 @@ const groupTabsAction = (tab) => {
     !tab.pendingUrl.includes("moz-extension:") &&
     !tab.pendingUrl.includes("about:") &&
     !tab.pendingUrl.includes("ntp.msn") &&
+    true &&
+    !tab.url.includes("chrome://") &&
+    !tab.url.includes("extension://") &&
+    !tab.url.includes("edge://") &&
+    !tab.url.includes("moz-extension:") &&
+    !tab.url.includes("about:") &&
+    !tab.url.includes("ntp.msn") &&
     tab.groupId === -1
   ) {
     chrome.tabs.get(tab.openerTabId, (openerTab) => {
@@ -233,20 +246,49 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-
 // --- Safe ungroup editing helpers ---
 function safeUngroupTab(tabId, retry = 0) {
   try {
-    chrome.tabs.ungroup(tabId, () => {
-      if (chrome.runtime.lastError &&
-        chrome.runtime.lastError.message &&
-        chrome.runtime.lastError.message.includes("Tabs cannot be edited right now")) {
-        if (retry < 10) setTimeout(() => safeUngroupTab(tabId, retry + 1), 100 * (retry + 1));
-        if (retry >= 10) console.warn("Failed to ungroup tab after several retries:", chrome.runtime.lastError.message);
-      }
-    });
+    // console.log("Ungrouping tab ", tabId);
+    if (browser) {
+      browser.tabs.ungroup(tabId);
+    } else {
+      chrome.tabs.ungroup(tabId, () => {
+        if (
+          chrome.runtime.lastError &&
+          chrome.runtime.lastError.message &&
+          chrome.runtime.lastError.message.includes(
+            "Tabs cannot be edited right now"
+          )
+        ) {
+        //   console.warn(
+        //     "Retrying ungroup tab due to error:",
+        //     chrome.runtime.lastError.message
+        //   );
+          if (retry < 10)
+            setTimeout(
+              () => safeUngroupTab(tabId, retry + 1),
+              100 * (retry + 1)
+            );
+        //   if (retry >= 10)
+        //     console.warn(
+        //       "Failed to ungroup tab after several retries:",
+        //       chrome.runtime.lastError.message
+        //     );
+        } else {
+          // console.log("Tab ungrouped successfully");
+        }
+      });
+    }
+
+    // console.log("Tab ungrouped successfully");
   } catch (e) {
-    if (e.message && e.message.includes("Tabs cannot be edited right now") && retry < 5) {
+    // console.log(e);
+    if (
+      e.message &&
+      e.message.includes("Tabs cannot be edited right now") &&
+      retry < 5
+    ) {
       setTimeout(() => safeUngroupTab(tabId, retry + 1), 100 * (retry + 1));
     }
   }
