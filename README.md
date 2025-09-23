@@ -14,16 +14,21 @@ Features:<br>
 Get the extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/tab-islands-for-edge/cmbiocblmmeggepnbhnngjnjkmignimb) or [Naver Whale Store](https://store.whale.naver.com/detail/pkmlodmdlnaglamodmnfhjcicbihgaic)
 
 ---
-# Fully Supported Browsers
+## ✅ Fully Supported Browsers
 - Google Chrome
 - \[Ungoogled] Chromium
 - Microsoft Edge
 - Brave
 - Naver Whale
+- Firefox
+  
+Most Chromium & Firefox forks (aside from the ones below) should work, but may impose limitations or issues.
+## ⚠️ Supported Browsers but need additional setup
+- Zen Browser
+  - Use this userChrome.css: https://github.com/Vertex-Mods/Advanced-Tab-Groups/blob/main/userChrome.css
+  - This userChrome.css is not affiliated with this extension, but it does the job!
 
-Most Chromium forks (aside from the ones below) should work, but may impose limitations or issues.
-
-# Unsupported Browsers
+## ❌ Unsupported Browsers
 - Opera One
   - This is a built-in feature within the browser
   - Extension conflicts with it
