@@ -1,5 +1,6 @@
 {
   "name": "Contextual Tab Groups - Group tabs by context",
+  "description": "Group tabs by context for you automatically. Inspired by Opera One.",
   "background": {
     "scripts": ["background.js"]
   },

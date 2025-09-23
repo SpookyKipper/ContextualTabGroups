@@ -90,8 +90,8 @@ Supported Search Engines: Google, Bing, BraveSearch, Ecosia, DuckDuckGo, Ask.com
 3. Unpacked extension will be available at `dist/<browser>`
 4. Pack the extension as ZIP via your File Manager
 
-Supported browsers are `chrome`, `firefox`<br>
-Any chromium-based browsers not listed here should also use `chrome` when building.
+Supported browsers are `chrome`, `firefox`, `edge`<br>
+Any other chromium-based browsers not listed here should also use `chrome` when building.
 
 ## Credits
 Extension Idea: [Opera One Tab Islands](https://www.opera.com/features/tab-islands)
