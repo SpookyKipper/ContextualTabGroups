@@ -16,19 +16,17 @@
     "64": "tab_islands.png",
     "128": "tab_islands.png"
   },
-  "permissions": [
-    "tabs", "tabGroups", "storage"
-  ],
+  "permissions": ["tabs", "tabGroups", "storage"],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
   },
   "commands": {
-      "newTabInGroup": {
-         "description": "New tab in Group / Create a new group",
-         "suggested_key": {
-            "default": "Alt+T"
-         }
+    "newTabInGroup": {
+      "description": "New tab in Group / Create a new group",
+      "suggested_key": {
+        "default": "Alt+T"
       }
-   }
+    }
+  }
 }

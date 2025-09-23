@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tab Islands for Chrome Options</title>
+    <title>Contextual Tab Groups Options</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +53,7 @@
             border-radius: 4px;
             text-align: center;
         }
-        #save {
+        #save, #openKeyboardShortcut {
             display: block;
             width: 100%;
             padding: 10px;
@@ -67,6 +67,9 @@
         }
         #save:hover {
             background-color: #2980b9;
+        }
+        code {
+            color: #c58af9;
         }
     </style>
 </head>
@@ -102,6 +105,18 @@
             <input type="checkbox" id="auto_disband_group">
             Disband Groups with only 1 tab in it
         </label>
+    </div>
+
+
+    <div class="option-container">
+        Modify Open in current (new) Tab Group hotkey<br>
+        Default: Alt+T
+        <button id="openKeyboardShortcut" style="width: 150px;height: 40px;scale: 0.8;right: 15.75px;position: relative;">Update Shortcut</button>
+        <p class="note">
+         Firefox's menu bar may interfere with the default Alt+T shortcut. Please either:<br>
+         1. Change to another shortcut key yourself<br>
+         2. Go to <code>about:config</code> and set <code>ui.key.menuAccessKey</code> to <code>0</code>
+        </p>
     </div>
 
     <div id="status"></div>
