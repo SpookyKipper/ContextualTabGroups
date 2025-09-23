@@ -191,7 +191,7 @@ const groupTabs = (tab) => {
   } else {
     setTimeout(() => {
       checkTab(tab);
-    }, 2);
+    }, 10);
   }
 };
 // re-get tab info //
@@ -202,7 +202,7 @@ const checkTab = (tab) => {
 };
 // actually group the tabs //
 const groupTabsAction = (tab) => {
-  console.log(tab);
+  // console.log(tab);
   function checkurl() {
     if (isFirefox) {
       if (tab.url === "about:blank") {
@@ -288,10 +288,10 @@ function safeUngroupTab(tabId, retry = 0) {
           )
         ) {
           // Tab is being dragged by user, wait and retry
-          if (retry < 10)
+          if (retry < 15)
             setTimeout(
               () => safeUngroupTab(tabId, retry + 1),
-              100 * (retry + 1)
+              100
             );
         }
       });
