@@ -12,8 +12,8 @@ function copyDirectorySync(sourceDir, destinationDir) {
   }
 }
 
-const target = process.argv[2]; // 'chrome', 'opera', or 'firefox'
-const validTargets = ["chrome", "opera", "firefox"];
+const target = process.argv[2]; // 'chrome', 'edge', or 'firefox'
+const validTargets = ["chrome", "edge", "firefox"];
 
 if (!validTargets.includes(target)) {
   console.error(`Usage: node buildExtension.js <${validTargets.join("|")}>`);
@@ -29,14 +29,14 @@ const baseManifest = JSON.parse(
 let merged;
 
 // For Chrome & Opera: apply chromium.json + browser-specific
-if (target === "chrome" || target === "opera") {
+if (target === "chrome" || target === "edge") {
   const chromiumFragment = JSON.parse(
     fs.readFileSync(path.join(manifestDir, "chromium.json"), "utf-8")
   );
-  // const specific = JSON.parse(
-  //   fs.readFileSync(path.join(manifestDir, `${target}.json`), "utf-8")
-  // );
-  merged = { ...baseManifest, ...chromiumFragment }; //, ...specific
+  const specific = JSON.parse(
+    fs.readFileSync(path.join(manifestDir, `${target}.json`), "utf-8")
+  );
+  merged = { ...baseManifest, ...chromiumFragment, ...specific };
 } else { // For Firefox: apply only firefox.json
   const firefoxFragment = JSON.parse(
     fs.readFileSync(path.join(manifestDir, "firefox.json"), "utf-8")
@@ -57,7 +57,7 @@ fs.writeFileSync(
 copyDirectorySync('src/base', outDir);
 
 // Copy target-specific source files
-if (target === "chrome" || target === "opera") {
+if (target === "chrome" || target === "edge") {
   copyDirectorySync('src/chromium', outDir);
 } else {
   copyDirectorySync('src/firefox', outDir);
