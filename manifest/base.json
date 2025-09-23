@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "short_name": "Contextual Tab Groups",
   "description": "Group tabs by context for you automatically. Inspired by Opera One.",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "tab_islands.png"
