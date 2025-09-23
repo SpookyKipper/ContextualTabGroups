@@ -180,22 +180,15 @@ const nameTabGroup = (groupId, url) => {
 // Check if pending url is here //
 const groupTabs = (tab) => {
   if (typeof tab == "undefined") return;
+  if (isFirefox && tab.title == "New Tab") return;
   if (
-    (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
-    (typeof tab.url != "undefined" && tab.url !== "")
+    (typeof tab.pendingUrl != "undefined" &&
+      tab.pendingUrl !== "") ||
+    (isFirefox && typeof tab.title != "undefined" && tab.title !== "")
+    // Firefox does not have pendingUrl and put it in title instead.
   ) {
-    if (isFirefox && tab.url == "about:blank") {
-      // Firefox gives about:blank as URL when tab is not ready
-      console.log("Tab URL not ready, retrying...");
-      setTimeout(() => {
-        checkTabFF(tab);
-      }, 250); // Firefox will not update URL anytime before 250ms
-    } else {
-      console.log("Tab URL  ready, grouping...");
-      groupTabsAction(tab);
-    }
+    groupTabsAction(tab);
   } else {
-    console.warn("Tab URL not ready, retrying...");
     setTimeout(() => {
       checkTab(tab);
     }, 2);
@@ -207,42 +200,37 @@ const checkTab = (tab) => {
     groupTabs(tab);
   });
 };
-const checkTabFF = (tab, retries = 0) => {
-  // loop check to wait for Firefox updates the URL.
-  // After 50 retries we deem that the tab url is actually "about:blank," preventing infinite loop
-  if (retries > 50 || typeof tab == "undefined") return;
-  chrome.tabs.get(tab.id, (tab) => {
-    if (tab.url !== "about:blank") {
-      groupTabs(tab);
-    } else {
-      console.log("Tab URL not ready, retrying...");
-      setTimeout(() => {
-        checkTabFF(tab, retries + 1);
-      }, 2);
-    }
-  });
-};
 // actually group the tabs //
 const groupTabsAction = (tab) => {
   console.log(tab);
   function checkurl() {
     if (isFirefox) {
-      return (
-        tab.url &&
-        !tab.url.includes("chrome://") &&
-        !tab.url.includes("extension://") &&
-        !tab.url.includes("edge://") &&
-        !tab.url.includes("moz-extension:") &&
-        !tab.url.includes("about:") &&
-        !tab.url.includes("ntp.msn")
-      );
+      if (tab.url === "about:blank") {
+        return (
+          tab.title &&
+          !tab.title.startsWith("chrome://") &&
+          !tab.title.startsWith("moz-extension:") &&
+          !tab.title.startsWith("about:") &&
+          !tab.title.includes("ntp.msn")
+        );
+      } else {
+        return (
+          tab.url &&
+          !tab.url.startsWith("chrome://") &&
+          !tab.url.startsWith("moz-extension:") &&
+          !tab.url.startsWith("about:") &&
+          !tab.url.includes("ntp.msn")
+        );
+      }
     } else {
       return (
         tab.pendingUrl &&
-        !tab.pendingUrl.includes("chrome://") &&
-        !tab.pendingUrl.includes("extension://") &&
-        !tab.pendingUrl.includes("edge://") &&
-        !tab.pendingUrl.includes("about:") &&
+        !tab.pendingUrl.startsWith("chrome://") &&
+        !tab.pendingUrl.startsWith("chrome-untrusted://") &&
+        !tab.pendingUrl.startsWith("extension://") &&
+        !tab.pendingUrl.startsWith("chrome-extension://") &&
+        !tab.pendingUrl.startsWith("edge://") &&
+        !tab.pendingUrl.startsWith("about:") &&
         !tab.pendingUrl.includes("ntp.msn")
       );
     }
