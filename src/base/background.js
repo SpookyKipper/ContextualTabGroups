@@ -28,6 +28,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // Detect New Tabs //
 chrome.tabs.onCreated.addListener((tab) => {
+  // console.log("New tab created");
   groupTabs(tab);
   tabMaps.set(tab.id, tab);
 });
@@ -178,16 +179,26 @@ const nameTabGroup = (groupId, url) => {
 // Group Tabs //
 // Check if pending url is here //
 const groupTabs = (tab) => {
-  // console.log(tab);
+  if (typeof tab == "undefined") return;
   if (
     (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (typeof tab.url != "undefined" && tab.url !== "")
   ) {
-    groupTabsAction(tab);
+    if (isFirefox && tab.url == "about:blank") {
+      // Firefox gives about:blank as URL when tab is not ready
+      console.log("Tab URL not ready, retrying...");
+      setTimeout(() => {
+        checkTabFF(tab);
+      }, 250); // Firefox will not update URL anytime before 250ms
+    } else {
+      console.log("Tab URL  ready, grouping...");
+      groupTabsAction(tab);
+    }
   } else {
+    console.warn("Tab URL not ready, retrying...");
     setTimeout(() => {
       checkTab(tab);
-    }, 10);
+    }, 2);
   }
 };
 // re-get tab info //
@@ -196,8 +207,24 @@ const checkTab = (tab) => {
     groupTabs(tab);
   });
 };
+const checkTabFF = (tab, retries = 0) => {
+  // loop check to wait for Firefox updates the URL.
+  // After 50 retries we deem that the tab url is actually "about:blank," preventing infinite loop
+  if (retries > 50 || typeof tab == "undefined") return;
+  chrome.tabs.get(tab.id, (tab) => {
+    if (tab.url !== "about:blank") {
+      groupTabs(tab);
+    } else {
+      console.log("Tab URL not ready, retrying...");
+      setTimeout(() => {
+        checkTabFF(tab, retries + 1);
+      }, 2);
+    }
+  });
+};
 // actually group the tabs //
 const groupTabsAction = (tab) => {
+  console.log(tab);
   function checkurl() {
     if (isFirefox) {
       return (
