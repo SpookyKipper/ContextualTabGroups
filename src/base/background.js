@@ -13,12 +13,10 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // On updated, if tab was ungrouped, check if it was the last tab in the group and ungroup if so disband it
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.groupId === -1) {
-    // tab was ungrouped
-    const tabProp = tabMaps.get(tabId);
-    if (typeof tabProp != "undefined" && tabProp.groupId >= 0) {
-      disbandLoneGroup(tabProp.groupId);
-    }
+  // tab was ungrouped
+  const tabProp = tabMaps.get(tabId);
+  if (typeof tabProp != "undefined" && tabProp.groupId >= 0) {
+    disbandLoneGroup(tabProp.groupId);
   }
 
   setTimeout(() => {
@@ -182,8 +180,7 @@ const groupTabs = (tab) => {
   if (typeof tab == "undefined") return;
   if (isFirefox && tab.title == "New Tab") return;
   if (
-    (typeof tab.pendingUrl != "undefined" &&
-      tab.pendingUrl !== "") ||
+    (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (isFirefox && typeof tab.title != "undefined" && tab.title !== "")
     // Firefox does not have pendingUrl and put it in title instead.
   ) {
@@ -289,10 +286,7 @@ function safeUngroupTab(tabId, retry = 0) {
         ) {
           // Tab is being dragged by user, wait and retry
           if (retry < 15)
-            setTimeout(
-              () => safeUngroupTab(tabId, retry + 1),
-              100
-            );
+            setTimeout(() => safeUngroupTab(tabId, retry + 1), 100);
         }
       });
     }
