@@ -59,3 +59,10 @@ document
       browser.commands.openShortcutSettings();
     }
   });
+
+
+  if (typeof browser != "undefined") {
+    document.getElementById("firefoxNote").style.display = "block";
+  } else {
+    document.getElementById("firefoxNote").style.display = "none";
+  }
