@@ -10,10 +10,9 @@
   "author": "Spooky Kipper",
   "homepage_url": "https://spooky.hk/",
   "icons": {
-    "16": "tab_islands.png",
-    "32": "tab_islands.png",
-    "64": "tab_islands.png",
-    "128": "tab_islands.png"
+    "32": "icons/tab_islands32.png",
+    "64": "icons/tab_islands64.png",
+    "128": "icons/tab_islands128.png"
   },
   "permissions": ["tabs", "tabGroups", "storage"],
   "options_ui": {
