@@ -1,6 +1,5 @@
 {
   "manifest_version": 3,
-  "name": "Contextual Tab Groups - Auto create groups when opening a new tab",
   "short_name": "Contextual Tab Groups",
   "description": "Group tabs by context for you automatically. Inspired by Opera One.",
   "version": "1.6",

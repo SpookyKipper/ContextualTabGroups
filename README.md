@@ -20,7 +20,7 @@ Get the extension from the [Chrome Web Store](https://chromewebstore.google.com/
 - Microsoft Edge
 - Brave
 - Naver Whale
-- Firefox
+- Firefox 139/+
   
 Most Chromium & Firefox forks (aside from the ones below) should work, but may impose limitations or issues.
 ## ⚠️ Supported Browsers but need additional setup
@@ -29,15 +29,13 @@ Most Chromium & Firefox forks (aside from the ones below) should work, but may i
   - This userChrome.css is not affiliated with this extension, but it does the job!
 
 ## ❌ Unsupported Browsers
-- Opera One
+- Opera One & Opera GX
   - This is a built-in feature within the browser
   - Extension conflicts with it
-- Opera GX
-  - UI does not support tab groups
 - Vivaldi
-  - Does not support Chrome Tab Groups API
+  - Does not support Tab Groups API
 - Kiwi, Quetta, Orion or any mobile browsers that allows Chrome Extensions
-  - Does not support Desktop Tab Groups API
+  - Does not support Tab Groups API
 
 ---
 
@@ -86,7 +84,14 @@ Supported Search Engines: Google, Bing, BraveSearch, Ecosia, DuckDuckGo, Ask.com
 ### Disband Groups with only 1 tab in it
 - A toggle to whether automatically ungroup tab groups with only 1 tab in it
 
+## Building
+1. run `npm install`<br>
+2. run `node buildExtension.js <browser>`
+3. Unpacked extension will be available at `dist/<browser>`
+4. Pack the extension as ZIP via your File Manager
 
+Supported browsers are `chrome`, `firefox`<br>
+Any chromium-based browsers not listed here should also use `chrome` when building.
 
 ## Credits
 Extension Idea: [Opera One Tab Islands](https://www.opera.com/features/tab-islands)

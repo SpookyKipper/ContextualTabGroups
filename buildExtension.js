@@ -56,11 +56,11 @@ fs.writeFileSync(
 // Copy source files
 copyDirectorySync('src/base', outDir);
 
-// // Copy target-specific source files
-// if (target === "chrome" || target === "opera") {
-//   copyDirectorySync('src/chromium', outDir);
-// } else {
-//   copyDirectorySync('src/firefox', outDir);
-// }
+// Copy target-specific source files
+if (target === "chrome" || target === "opera") {
+  copyDirectorySync('src/chromium', outDir);
+} else {
+  copyDirectorySync('src/firefox', outDir);
+}
 
 console.log(`✅ Built ${target} extension in ${outDir}`);
