@@ -56,15 +56,19 @@ chrome.tabs.onDetached.addListener((tab) => {
 });
 
 function disbandLoneGroup(groupId, retries = 0) {
-  chrome.tabs.query({ groupId: groupId }, (tabs) => {
-    // console.log(tabs);
-    if (tabs.length === 1) {
-      safeUngroupTab(tabs[0].id);
-    } else if (tabs.length === 2 && isFirefox && retries <= 20) {
-      // Firefox takes a while to update
-      setTimeout(() => {
-        disbandLoneGroup(groupId, retries + 1);
-      }, 5);
+  chrome.storage.sync.get({ auto_disband_group: true }, (items) => {
+    if (items.auto_disband_group) {
+      chrome.tabs.query({ groupId: groupId }, (tabs) => {
+        // console.log(tabs);
+        if (tabs.length === 1) {
+          safeUngroupTab(tabs[0].id);
+        } else if (tabs.length === 2 && isFirefox && retries <= 20) {
+          // Firefox takes a while to update
+          setTimeout(() => {
+            disbandLoneGroup(groupId, retries + 1);
+          }, 5);
+        }
+      });
     }
   });
 }
@@ -232,19 +236,6 @@ const groupTabsAction = (tab) => {
     });
   }
 };
-
-// Disband Tab Islands with only 1 tab //
-function disbandSingleTabGroups() {
-  chrome.tabGroups.query({}, (groups) => {
-    groups.forEach((group) => {
-      chrome.tabs.query({ groupId: group.id }, (tabs) => {
-        if (tabs.length === 1) {
-          chrome.tabs.ungroup(tabs[0].id);
-        }
-      });
-    });
-  });
-}
 
 // New tab in group keyboard shortcut //
 chrome.commands.onCommand.addListener((command) => {
