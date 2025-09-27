@@ -1,4 +1,4 @@
-# Contextual Tab Groups [<img align="right" src="https://github.com/user-attachments/assets/013973c7-f0ee-4706-986d-e7e3993fc8d6">](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) <img align="right" width="172" height="60" alt="image" src="https://github.com/user-attachments/assets/7c7aee63-2936-40a0-ba08-13fe79c1b92a" />
+# Contextual Tab Groups [<img align="right" src="https://github.com/user-attachments/assets/013973c7-f0ee-4706-986d-e7e3993fc8d6">](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) [<img align="right" width="172" height="60" alt="image" src="https://github.com/user-attachments/assets/7c7aee63-2936-40a0-ba08-13fe79c1b92a" />](https://addons.mozilla.org/en-US/firefox/addon/tab-groups/)
 
 
 ### Group tabs by context for you automatically. Inspired by Opera One.
