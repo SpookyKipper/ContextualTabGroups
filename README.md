@@ -1,4 +1,5 @@
-# Contextual Tab Groups [<img align="right" src="https://github.com/user-attachments/assets/013973c7-f0ee-4706-986d-e7e3993fc8d6">](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin)
+# Contextual Tab Groups [<img align="right" src="https://github.com/user-attachments/assets/013973c7-f0ee-4706-986d-e7e3993fc8d6">](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) <img align="right" width="172" height="60" alt="image" src="https://github.com/user-attachments/assets/7c7aee63-2936-40a0-ba08-13fe79c1b92a" />
+
 
 ### Group tabs by context for you automatically. Inspired by Opera One.
 
@@ -11,7 +12,7 @@ Features:<br>
 
 ---
 ## Installation
-Get the extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/tab-islands-for-edge/cmbiocblmmeggepnbhnngjnjkmignimb) or [Naver Whale Store](https://store.whale.naver.com/detail/pkmlodmdlnaglamodmnfhjcicbihgaic)
+Get the extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/tab-islands-for-chrome/bnkppmpbnnedcfoncmkbekokhmfkhoin) or [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/tab-islands-for-edge/cmbiocblmmeggepnbhnngjnjkmignimb) or [Naver Whale Store](https://store.whale.naver.com/detail/pkmlodmdlnaglamodmnfhjcicbihgaic) or [Firefox Browser Add-ons](https://addons.mozilla.org/en-US/firefox/addon/tab-groups/)
 
 ---
 ## ✅ Fully Supported Browsers
