@@ -27,6 +27,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // Detect New Tabs //
 chrome.tabs.onCreated.addListener((tab) => {
   // console.log("New tab created");
+  // console.log(tab);
   groupTabs(tab);
   tabMaps.set(tab.id, tab);
 });
@@ -178,13 +179,17 @@ const nameTabGroup = (groupId, url) => {
 // Check if pending url is here //
 const groupTabs = (tab) => {
   if (typeof tab == "undefined") return;
-  if (isFirefox && tab.title == "New Tab") return;
+
   if (
     (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (isFirefox && typeof tab.title != "undefined" && tab.title !== "")
     // Firefox does not have pendingUrl and put it in title instead.
   ) {
-    groupTabsAction(tab);
+    if (tab.title === "New Tab" && tab.url === "about:blank" && isFirefox) {
+      checkTabFF(tab);
+    } else {
+      groupTabsAction(tab);
+    }
   } else {
     setTimeout(() => {
       checkTab(tab);
@@ -195,6 +200,20 @@ const groupTabs = (tab) => {
 const checkTab = (tab) => {
   chrome.tabs.get(tab.id, (tab) => {
     groupTabs(tab);
+  });
+};
+const checkTabFF = (tab, retries = 0) => {
+  if (retries > 20) return; // assume real about:blank after 20 tries
+  browser.tabs.get(tab.id, (tab) => {
+    // console.log(tab);
+    if (tab.url === "about:blank" && tab.title === "New Tab" && isFirefox) {
+      // Firefox misteriously puts Tab Property opened with "<a> target _blank" with title "New Tab" (url about:blank) for a short while
+      setTimeout(() => {
+        checkTabFF(tab);
+      }, 25 * retries + 1)
+    } else {
+      groupTabs(tab);
+    }
   });
 };
 // actually group the tabs //
