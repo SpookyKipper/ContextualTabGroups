@@ -207,7 +207,7 @@ const checkTabFF = (tab, retries = 0) => {
   browser.tabs.get(tab.id, (tab) => {
     // console.log(tab);
     if (tab.url === "about:blank" && tab.title === "New Tab" && isFirefox) {
-      // Firefox misteriously puts Tab Property opened with "<a> target _blank" with title "New Tab" (url about:blank) for a short while
+      // Firefox mysteriously puts Tab Property opened with "<a> target _blank" with title "New Tab" (url about:blank) for a short while
       setTimeout(() => {
         checkTabFF(tab);
       }, 25 * retries + 1)
