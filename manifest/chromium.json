@@ -1,5 +1,4 @@
 {
-  "name": "Contextual Tab Groups - Auto create groups when opening a new tab",
   "background": {
     "service_worker": "background.js"
   }

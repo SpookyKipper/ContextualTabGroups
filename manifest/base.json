@@ -3,7 +3,7 @@
   "version": "1.6.2",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "tab_islands.png"
+    "default_icon": "icons/tab_islands.png"
   },
   "author": "Spooky Kipper",
   "homepage_url": "https://spooky.hk/",
