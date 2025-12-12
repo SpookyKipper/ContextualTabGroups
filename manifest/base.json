@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "1.6.3",
+  "version": "1.6.4",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icons/tab_islands.png"
