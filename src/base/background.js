@@ -64,7 +64,7 @@ function disbandLoneGroup(groupId, retries = 0) {
         // console.log(tabs);
         if (tabs.length === 1) {
           safeUngroupTab(tabs[0].id);
-        } else if (tabs.length === 2 && isFirefox && retries <= 50) {
+        } else if (tabs.length === 2 && isFirefox && retries <= 100) {
           // Firefox takes a while to update
           setTimeout(() => {
             disbandLoneGroup(groupId, retries + 1);
