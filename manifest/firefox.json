@@ -2,7 +2,8 @@
   "name": "Contextual Tab Groups - Group tabs by context",
   "description": "Group tabs by context for you automatically. Inspired by Opera One.",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"],
+    "type": "module"
   },
   "browser_specific_settings": {
     "gecko": {
