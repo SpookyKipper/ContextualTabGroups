@@ -1,3 +1,5 @@
+import punycode from "./punycode.js";
+
 const isFirefox = typeof browser !== "undefined";
 let tabMaps = new Map();
 
@@ -82,11 +84,16 @@ const formatDomainTitle = (url) => {
     url = url.replace(/^(https?:\/\/)?(www\.)?/, "");
     // Split the domain by dots
     const parts = url.split(".");
+
+    let word = "";
     // Check if it's a country-specific TLD (e.g., .co.uk)
     if (parts.length > 2 && parts[parts.length - 2].length <= 3) {
       word = parts[parts.length - 3];
     } else {
       word = parts[parts.length - 2];
+    }
+    if (word.startsWith("xn--")) {
+      word = punycode.decode(word.slice(4));
     }
     const firstLetter = word.charAt(0);
     const firstLetterCap = firstLetter.toUpperCase();
