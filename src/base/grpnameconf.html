@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contextual Tab Groups Options</title>
+    <link rel="stylesheet" href="html.css" />
+    <style>
+      .actions {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        margin: 0 5px;
+      }
+      .modal {
+        position: fixed;
+        width: 100%;
+        max-width: 600px;
+        border: 2px solid var(--primary);
+        border-radius: 10px;
+        top: 10%;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal" id="input-entry">
+      <div class="ui fluid card">
+        <div class="content">
+          <h2 class="card-header" style="margin: 0; display: inline">
+            Input Entry
+          </h2>
+          <button id="close-modal" style="float: right">Close</button>
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="hostname" class="form-label"> Hostname </label>
+          <input type="text" class="form-control" id="hostname" value="" />
+        </div>
+
+        <div class="form-group">
+          <label for="groupname" class="form-label"> Tab Group Name </label>
+          <input type="text" class="form-control" id="groupname" value="" />
+        </div>
+
+        <div class="form-group">
+          <button id="save" style="width: 100%; margin: 0">Save Changes</button>
+        </div>
+      </div>
+    </div>
+    <h1>Contextual Tab Groups Options</h1>
+
+    <div class="ui fluid card">
+      <h2 class="card-header" style="display: inline">
+        Configure domain to tab group name value
+      </h2>
+      <button id="add-entry" style="float: right">New Entry</button>
+      <table class="ui table center aligned">
+        <thead>
+          <tr>
+            <th>Hostname</th>
+            <th>Tab Group Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>5</td>
+            <td>6</td>
+            <td>
+              <img src="pen.svg" class="actions" /><img
+                src="trash.svg"
+                class="actions"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="status"></div>
+
+    <script src="grpnameconf.js"></script>
+  </body>
+</html>

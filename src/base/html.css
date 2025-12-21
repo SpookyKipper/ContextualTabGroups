@@ -1,0 +1,437 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #e0e0e0;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #100f10;
+}
+
+h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.option-container {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 1px solid #2a2a2a;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e0e0e0;
+}
+
+input[type="text"] {
+    color-scheme: dark;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    outline: none;
+    scrollbar-width: thin;
+    margin: 0;
+    font-family: inherit;
+    display: block;
+    width: 100%;
+    line-height: 1.5;
+    appearance: none;
+    padding: 0.65rem 1rem;
+    border: solid 1px var(--divider);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-regular);
+    box-shadow: none !important;
+    transition: border 0.25s ease;
+    background: rgba(255, 255, 255, 0.04);
+    height: 38.17px;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary);
+    color: var(--text-primary);
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #6f65dc;
+}
+
+.note {
+    font-size: 12px;
+    color: #999;
+    margin-top: 3px;
+    margin-left: 24px;
+    margin-bottom: 0;
+}
+
+.note a {
+    color: #6f65dc;
+    text-decoration: none;
+}
+
+.note a:hover {
+    text-decoration: underline;
+}
+
+#status {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* #save,
+      #openKeyboardShortcut {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #6f65dc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      } */
+#save:hover,
+#openKeyboardShortcut:hover {
+    background-color: #5a51c3;
+}
+
+code {
+    color: #6f65dc;
+    background-color: #1a1a1a;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.075);
+}
+
+button {
+    --fa-style-family-brands: "Font Awesome 6 Brands";
+    --fa-style-family-classic: "Font Awesome 6 Free";
+    --bs-blue: #0d6efd;
+    --bs-indigo: #6610f2;
+    --bs-purple: #6f42c1;
+    --bs-pink: #d63384;
+    --bs-red: #dc3545;
+    --bs-orange: #fd7e14;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-white: #fff;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    --bs-gradient: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.15),
+            rgba(255, 255, 255, 0));
+    --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+    --font-family: "Montserrat";
+    --font-weight-regular: 300;
+    --font-weight-medium: 400;
+    --font-weight-bold: 500;
+    --font-weight-heavy: 600;
+    --font-weight-heaviest: 800;
+    --background-dark: #1b1b1b;
+    --text-disabled: #e1df19;
+    --success: #27ae60;
+    --danger: #c0392b;
+    --info: #3498db;
+    --warning: #f1c40f;
+    --preloader-icon-color: #fff;
+    --background-page: #100f10;
+    --background-primary: #1b1b1b;
+    --background-secondary: #242424;
+    --background-hover: rgba(255, 255, 255, 0.02);
+    --text-primary: rgba(255, 255, 255, 0.75);
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    --secondary: rgba(255, 255, 255, 0.04);
+    --shadow-soft: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hard: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    --divider: rgba(255, 255, 255, 0.05);
+    scrollbar-color: rgba(255, 255, 255, 0.075) transparent;
+    --primary: #6f65dc;
+    --primary-text: var(--primary);
+    --header-height: 300px;
+    --header-logo-height: 200px;
+    --portal-logo-height: 200px;
+    --avatars-border-radius: 50%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    color-scheme: dark;
+    pointer-events: auto;
+    box-sizing: border-box;
+    outline: none;
+    scrollbar-width: thin;
+    font-family: inherit;
+    -webkit-appearance: button;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    user-select: none;
+    margin: 0.25rem;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border: none !important;
+    border-radius: 0.5rem;
+    box-shadow: none !important;
+    font-weight: var(--font-weight-heavy);
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity 0.25s ease;
+    background: var(--primary) !important;
+    color: #fff !important;
+    height: 31px;
+    padding: 0 1rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+table {
+    --fa-style-family-brands: "Font Awesome 6 Brands";
+    --fa-style-family-classic: "Font Awesome 6 Free";
+    --bs-blue: #0d6efd;
+    --bs-indigo: #6610f2;
+    --bs-purple: #6f42c1;
+    --bs-pink: #d63384;
+    --bs-red: #dc3545;
+    --bs-orange: #fd7e14;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-white: #fff;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+    --font-family: 'Montserrat';
+    --font-weight-regular: 300;
+    --font-weight-medium: 400;
+    --font-weight-bold: 500;
+    --font-weight-heavy: 600;
+    --font-weight-heaviest: 800;
+    --background-dark: #1b1b1b;
+    --text-disabled: #e1df19;
+    --success: #27ae60;
+    --danger: #c0392b;
+    --info: #3498db;
+    --warning: #f1c40f;
+    --preloader-icon-color: #fff;
+    --background-page: #100f10;
+    --background-primary: #1b1b1b;
+    --background-secondary: #242424;
+    --background-hover: rgba(255, 255, 255, 0.02);
+    --text-primary: rgba(255, 255, 255, 0.75);
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    --secondary: rgba(255, 255, 255, 0.04);
+    --shadow-soft: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hard: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    --divider: rgba(255, 255, 255, 0.05);
+    scrollbar-color: rgba(255, 255, 255, 0.075) transparent;
+    --primary: #6f65dc;
+    --primary-text: var(--primary);
+    --header-height: 300px;
+    --header-logo-height: 200px;
+    --portal-logo-height: 200px;
+    --avatars-border-radius: 50%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font: inherit;
+    color-scheme: dark;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    outline: none;
+    scrollbar-width: thin;
+    caption-side: bottom;
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    color: #212529;
+    vertical-align: top;
+    background: none;
+    width: 100% !important;
+    margin: 0;
+    border: none;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+}
+
+thead>tr>th {
+
+    border-collapse: collapse;
+    box-sizing: border-box;
+    outline: none;
+    scrollbar-width: thin;
+    text-align: -webkit-match-parent;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    background: none;
+    border: none;
+    padding: 0;
+    padding-bottom: 1rem;
+    color: var(--primary-text);
+    font-size: 1.15rem;
+    font-weight: var(--font-weight-bold);
+    white-space: nowrap;
+    border-bottom-color: currentColor;
+}
+
+tbody>tr>td {
+
+    border-collapse: collapse;
+    box-sizing: border-box;
+    outline: none;
+    scrollbar-width: thin;
+    background-color: var(--bs-table-bg);
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    border: none;
+    padding: 1rem 0 !important;
+    vertical-align: middle;
+    color: var(--text-primary);
+    font-size: 0.975rem;
+    font-weight: var(--font-weight-medium);
+}
+
+
+:root {
+    --fa-style-family-brands: "Font Awesome 6 Brands";
+    --fa-style-family-classic: "Font Awesome 6 Free";
+    --bs-blue: #0d6efd;
+    --bs-indigo: #6610f2;
+    --bs-purple: #6f42c1;
+    --bs-pink: #d63384;
+    --bs-red: #dc3545;
+    --bs-orange: #fd7e14;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-white: #fff;
+    --bs-gray: #6c757d;
+    --bs-gray-dark: #343a40;
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+    --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+    --font-family: 'Montserrat';
+    --font-weight-regular: 300;
+    --font-weight-medium: 400;
+    --font-weight-bold: 500;
+    --font-weight-heavy: 600;
+    --font-weight-heaviest: 800;
+    --background-dark: #1b1b1b;
+    --text-disabled: #e1df19;
+    --success: #27ae60;
+    --danger: #c0392b;
+    --info: #3498db;
+    --warning: #f1c40f;
+    --preloader-icon-color: #fff;
+    --background-page: #100f10;
+    --background-primary: #1b1b1b;
+    --background-secondary: #242424;
+    --background-hover: rgba(255, 255, 255, 0.02);
+    --text-primary: rgba(255, 255, 255, 0.75);
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    --secondary: rgba(255, 255, 255, 0.04);
+    --shadow-soft: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+    --shadow-hard: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+    --divider: rgba(255, 255, 255, 0.05);
+    scrollbar-color: rgba(255, 255, 255, 0.075) transparent;
+    --primary: #6f65dc;
+    --primary-text: var(--primary);
+    --header-height: 300px;
+    --header-logo-height: 200px;
+    --portal-logo-height: 200px;
+    --avatars-border-radius: 50%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font: inherit;
+    color-scheme: dark;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+    word-wrap: break-word;
+    caption-side: bottom;
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+}
+
+.card {
+    background: var(--background-primary);
+    padding: 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    -webkit-box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-soft);
+}
+
+.form-group+.form-group {
+    margin-top: 1rem;
+}

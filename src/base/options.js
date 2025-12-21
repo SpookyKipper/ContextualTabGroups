@@ -66,3 +66,9 @@ document
   } else {
     document.getElementById("firefoxNote").style.display = "none";
   }
+
+document
+  .getElementById("openGrpNameConf")
+  .addEventListener("click", () => {
+    chrome.tabs.create({ url: "grpnameconf.html" });
+  });
