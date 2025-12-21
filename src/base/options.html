@@ -1,127 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contextual Tab Groups Options</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .option-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        .note {
-            font-size: 12px;
-            color: #666;
-            margin-top: 3px;
-            margin-left: 24px;
-            margin-bottom: 0;
-        }
-        #status {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-        }
-        #save, #openKeyboardShortcut {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #c58af9;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #save:hover {
-            background-color: #2980b9;
-        }
-        code {
-            color: #c58af9;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #e0e0e0;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #100f10;
+      }
+      h1 {
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .option-container {
+        background-color: #1a1a1a;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        border: 1px solid #2a2a2a;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #e0e0e0;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #3a3a3a;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+      }
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #6f65dc;
+        box-shadow: 0 0 0 2px rgba(111, 101, 220, 0.2);
+      }
+      input[type="checkbox"] {
+        margin-right: 10px;
+        accent-color: #6f65dc;
+      }
+      .note {
+        font-size: 12px;
+        color: #999;
+        margin-top: 3px;
+        margin-left: 24px;
+        margin-bottom: 0;
+      }
+      .note a {
+        color: #6f65dc;
+        text-decoration: none;
+      }
+      .note a:hover {
+        text-decoration: underline;
+      }
+      #status {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+      }
+      /* #save,
+      #openKeyboardShortcut {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #6f65dc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      } */
+      #save:hover,
+      #openKeyboardShortcut:hover {
+        background-color: #5a51c3;
+      }
+      code {
+        color: #6f65dc;
+        background-color: #1a1a1a;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      ::selection {
+        background: rgba(255, 255, 255, 0.075);
+      }
+      button {
+        --fa-style-family-brands: "Font Awesome 6 Brands";
+        --fa-style-family-classic: "Font Awesome 6 Free";
+        --bs-blue: #0d6efd;
+        --bs-indigo: #6610f2;
+        --bs-purple: #6f42c1;
+        --bs-pink: #d63384;
+        --bs-red: #dc3545;
+        --bs-orange: #fd7e14;
+        --bs-yellow: #ffc107;
+        --bs-green: #198754;
+        --bs-teal: #20c997;
+        --bs-cyan: #0dcaf0;
+        --bs-white: #fff;
+        --bs-gray: #6c757d;
+        --bs-gray-dark: #343a40;
+        --bs-primary: #0d6efd;
+        --bs-secondary: #6c757d;
+        --bs-success: #198754;
+        --bs-info: #0dcaf0;
+        --bs-warning: #ffc107;
+        --bs-danger: #dc3545;
+        --bs-light: #f8f9fa;
+        --bs-dark: #212529;
+        --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+          "Noto Color Emoji";
+        --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        --bs-gradient: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.15),
+          rgba(255, 255, 255, 0)
+        );
+        --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+        --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+        --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+        --font-family: "Montserrat";
+        --font-weight-regular: 300;
+        --font-weight-medium: 400;
+        --font-weight-bold: 500;
+        --font-weight-heavy: 600;
+        --font-weight-heaviest: 800;
+        --background-dark: #1b1b1b;
+        --text-disabled: #e1df19;
+        --success: #27ae60;
+        --danger: #c0392b;
+        --info: #3498db;
+        --warning: #f1c40f;
+        --preloader-icon-color: #fff;
+        --background-page: #100f10;
+        --background-primary: #1b1b1b;
+        --background-secondary: #242424;
+        --background-hover: rgba(255, 255, 255, 0.02);
+        --text-primary: rgba(255, 255, 255, 0.75);
+        --text-secondary: rgba(255, 255, 255, 0.5);
+        --secondary: rgba(255, 255, 255, 0.04);
+        --shadow-soft: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+        --shadow-hard: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+        --divider: rgba(255, 255, 255, 0.05);
+        scrollbar-color: rgba(255, 255, 255, 0.075) transparent;
+        --primary: #6f65dc;
+        --primary-text: var(--primary);
+        --header-height: 300px;
+        --header-logo-height: 200px;
+        --portal-logo-height: 200px;
+        --avatars-border-radius: 50%;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        color-scheme: dark;
+        pointer-events: auto;
+        box-sizing: border-box;
+        outline: none;
+        scrollbar-width: thin;
+        font-family: inherit;
+        -webkit-appearance: button;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        user-select: none;
+        margin: 0.25rem;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        border: none !important;
+        border-radius: 0.5rem;
+        box-shadow: none !important;
+        font-weight: var(--font-weight-heavy);
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: opacity 0.25s ease;
+        background: var(--primary) !important;
+        color: #fff !important;
+        height: 31px;
+        padding: 0 1rem;
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Contextual Tab Groups Options</h1>
-    
+
     <div class="option-container">
       <label for="auto_created_group_name">
-          Name for automatically created groups (Default)
-          <input type="text" id="auto_created_group_name" value="%domain%">
-          <p class="note">Leave empty for none</p>
-          <p class="note">Available Placeholders: <code>%domain%</code></p>
+        Name for automatically created groups (Default)
+        <input type="text" id="auto_created_group_name" value="%domain%" />
+        <p class="note">Leave empty for none</p>
+        <p class="note">Available Placeholders: <code>%domain%</code></p>
       </label>
-  </div>
-
-
-  <div class="option-container">
-    <label for="auto_created_group_name_search_engine">
-        Name for automatically created groups (Search Engines)
-        <input type="text" id="auto_created_group_name_search_engine" value="%search_query%">
-        <p class="note">Leave empty to use default</p>
-        <p class="note">Available Placeholders: <code>%search_query%</code>, <code>%domain%</code> </p><p> </p>
-        <p class="note">Supported Search Engines:<br>Google, Bing, BraveSearch, Ecosia, DuckDuckGo, Ask.com, Yahoo, Startpage, Baidu, YouTube</p><p> </p>
-        <p class="note">Note for Startpage:<br>
-                    1. Experimental, may not work<br>
-                    2. Please change "HTTP request method" to "GET" at <a href="https://www.startpage.com/do/settings" target="_blank">https://www.startpage.com/do/settings</a>.
-        </p>
-    </label>
-</div>
-
-    <div class="option-container">
-        <label>
-            <input type="checkbox" id="auto_disband_group">
-            Disband Groups with only 1 tab in it
-        </label>
     </div>
 
+    <div class="option-container">
+      <label for="auto_created_group_name_search_engine">
+        Name for automatically created groups (Search Engines)
+        <input
+          type="text"
+          id="auto_created_group_name_search_engine"
+          value="%search_query%"
+        />
+        <p class="note">Leave empty to use default</p>
+        <p class="note">
+          Available Placeholders: <code>%search_query%</code>,
+          <code>%domain%</code>
+        </p>
+        <p></p>
+        <p class="note">
+          Supported Search Engines:<br />Google, Bing, BraveSearch, Ecosia,
+          DuckDuckGo, Ask.com, Yahoo, Startpage, Baidu, YouTube
+        </p>
+        <p></p>
+        <p class="note">
+          Note for Startpage:<br />
+          1. Experimental, may not work<br />
+          2. Please change "HTTP request method" to "GET" at
+          <a href="https://www.startpage.com/do/settings" target="_blank"
+            >https://www.startpage.com/do/settings</a
+          >.
+        </p>
+      </label>
+    </div>
 
     <div class="option-container">
-        Modify Open in current (new) Tab Group hotkey<br>
-        Default: Alt+T
-        <button id="openKeyboardShortcut" style="width: 150px;height: 40px;scale: 0.8;right: 15.75px;position: relative;">Modify Shortcut</button>
-        <p class="note" id="firefoxNote">
-         Firefox's menu bar may interfere with the default Alt+T shortcut. Please either:<br>
-         1. Change to another shortcut key yourself<br>
-         2. Go to <code>about:config</code> and set <code>ui.key.menuAccessKey</code> to <code>0</code>
-        </p>
+      <label>
+        <input type="checkbox" id="auto_disband_group" />
+        Disband Groups with only 1 tab in it
+      </label>
+    </div>
+
+    <div class="option-container">
+      Modify Open in current (new) Tab Group hotkey<br />
+      Default: Alt+T
+      <button
+        id="openKeyboardShortcut"
+        style="
+          width: 150px;
+          height: 40px;
+          scale: 0.8;
+          right: 15.75px;
+          position: relative;
+        "
+      >
+        Modify Shortcut
+      </button>
+      <p class="note" id="firefoxNote">
+        Firefox's menu bar may interfere with the default Alt+T shortcut. Please
+        either:<br />
+        1. Change to another shortcut key yourself<br />
+        2. Go to <code>about:config</code> and set
+        <code>ui.key.menuAccessKey</code> to <code>0</code>
+      </p>
     </div>
 
     <div id="status"></div>
-    <button id="save">Save Changes</button>
+    <button id="save" style="width: 100%">Save Changes</button>
 
     <script src="options.js"></script>
-</body>
+  </body>
 </html>
