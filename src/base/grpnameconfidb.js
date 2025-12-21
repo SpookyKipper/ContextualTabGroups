@@ -35,7 +35,7 @@ var insertData = async () => {
   const transaction = db.transaction(["GrpNameConf"], "readwrite");
   const objectStore = transaction.objectStore("GrpNameConf");
 
-  const hostname = document.getElementById("hostname").value;
+  const hostname = document.getElementById("hostname").value.replaceAll(" ", "");
   const groupname = document.getElementById("groupname").value;
 
   const data = { hostname, groupname };

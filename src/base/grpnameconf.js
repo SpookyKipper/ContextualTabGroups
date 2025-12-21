@@ -5,7 +5,7 @@ document.getElementById("close-modal").addEventListener("click", () => {
 document.getElementById("add-entry").addEventListener("click", () => {
   document.querySelector(".modal").style.display = "block";
   document.getElementById("groupname").value = "";
-  document.getElementById("hostname").innerText = "";
+  document.getElementById("hostname").value = "";
   document.getElementById("hostname").removeAttribute("disabled");
 });
 
