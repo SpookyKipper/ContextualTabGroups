@@ -26,16 +26,36 @@ var openDB = async () => {
       });
       objectStore.createIndex("hostname", "hostname", { unique: true });
       objectStore.createIndex("groupname", "groupname", { unique: false });
+      loadDefaultValues();
     };
   });
 };
+
+async function loadDefaultValues() {
+  const db = await openDB();
+  const transaction = db.transaction(["GrpNameConf"], "readwrite");
+  const objectStore = transaction.objectStore("GrpNameConf");
+
+  objectStore.put({ hostname: "spooky.hk", groupname: "SpookyKipper" });
+  objectStore.put({ hostname: "spookysrv.com", groupname: "Spooky Services" });
+  objectStore.put({ hostname: "flow.spookysrv.com", groupname: "Flow" });
+  objectStore.put({ hostname: "ssl.com", groupname: "SSL.com" });
+  objectStore.put({ hostname: "bluearchive.nexon.com", groupname: "Blue Archive"});
+  objectStore.put({ hostname: "developer.mozilla.org", groupname: "MDN Docs" });
+  objectStore.put({ hostname: "gemini.google.com", groupname: "Gemini" });
+  objectStore.put({ hostname: "mail.google.com", groupname: "Gmail" });
+  objectStore.put({ hostname: "docs.google.com", groupname: "Google Workspace" });
+  objectStore.put({ hostname: "tw-pjsekai.com", groupname: "世界計劃" });
+}
 
 var insertData = async () => {
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readwrite");
   const objectStore = transaction.objectStore("GrpNameConf");
 
-  const hostname = document.getElementById("hostname").value.replaceAll(" ", "");
+  const hostname = document
+    .getElementById("hostname")
+    .value.replaceAll(" ", "");
   const groupname = document.getElementById("groupname").value;
 
   const data = { hostname, groupname };
@@ -49,7 +69,7 @@ var insertData = async () => {
     console.error(`Error inserting data: ${event.target.error}`);
   };
 
-  window.location.reload()
+  window.location.reload();
 };
 
 var deleteData = async () => {
@@ -68,7 +88,7 @@ var deleteData = async () => {
     console.error(`Error deleting all data: ${event.target.error}`);
   };
 
-  window.location.reload()
+  window.location.reload();
 };
 // Function to list all data
 var listData = async () => {
@@ -105,7 +125,8 @@ var displayDataAsList = (data) => {
           </tr>`;
     resultList.appendChild(listItem);
     document
-      .getElementById(`modify-${entry.hostname}`) .addEventListener("click", () => {
+      .getElementById(`modify-${entry.hostname}`)
+      .addEventListener("click", () => {
         document.querySelector(".modal").style.display = "block";
         document.getElementById("hostname").value = entry.hostname;
         document.getElementById("hostname").setAttribute("disabled", "true");
@@ -113,6 +134,5 @@ var displayDataAsList = (data) => {
       });
   });
 };
-
 
 listData();
