@@ -6,4 +6,11 @@ document.getElementById("add-entry").addEventListener("click", () => {
   document.querySelector(".modal").style.display = "block";
   document.getElementById("groupname").value = "";
   document.getElementById("hostname").innerText = "";
+  document.getElementById("hostname").removeAttribute("disabled");
+});
+
+document.getElementById("save-entry").addEventListener("click", () => {
+  insertData();
+  //   document.querySelector(".modal").style.display = "none";
+  //   listData(); // Refresh the displayed list after insertion
 });
