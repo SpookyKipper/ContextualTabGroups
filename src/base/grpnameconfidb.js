@@ -1,9 +1,8 @@
 // Open the database
 var openDB = async () => {
   return new Promise((resolve, reject) => {
-
     const request = window.indexedDB.open("GrpNameConf", 2);
- 
+
     request.onerror = (event) => {
       reject(`Error opening database: ${event.target.errorCode}`);
     };
@@ -27,28 +26,25 @@ var openDB = async () => {
       });
       objectStore.createIndex("hostname", "hostname", { unique: true });
       objectStore.createIndex("groupname", "groupname", { unique: false });
-      
     };
   });
 };
-
-
 
 var insertData = async () => {
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readwrite");
   const objectStore = transaction.objectStore("GrpNameConf");
 
-  const hostname = document
-    .getElementById("hostname")
-    .value.replaceAll(" ", "");
+  const hostname = document.getElementById("hostname").value;
   const groupname = document.getElementById("groupname").value;
 
   const regex = /^[A-Za-z0-9\.\-]{1,100}$/;
-    if (!(regex.test(hostname) && regex.test(groupname))) {
-      alert("- Invalid input. Only letters, numbers, dots, and hyphens are allowed, with a maximum length of 100 characters.\n- DO NOT include slashes, or http(s)://\n- Use Punycode domains (starting with xn--) for non-English hostnames.");
-      return;
-    }
+  if (!regex.test(hostname)) {
+    alert(
+      "- Invalid input. Only letters, numbers, dots, and hyphens are allowed, with a maximum length of 100 characters.\n- DO NOT include slashes, or http(s)://\n- Use Punycode domains (starting with xn--) for non-English hostnames."
+    );
+    return;
+  }
 
   const data = { hostname, groupname };
   const request = objectStore.put(data);
@@ -84,12 +80,9 @@ var deleteData = async () => {
 };
 // Function to list all data
 var listData = async () => {
-  
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readonly");
   const objectStore = transaction.objectStore("GrpNameConf");
-
-  
 
   const request = objectStore.getAll();
 
@@ -112,7 +105,7 @@ var displayDataAsList = (data) => {
   data.forEach((entry) => {
     const listItem = document.createElement("tbody");
     const regex = /^[A-Za-z0-9\.\-]{1,100}$/;
-    if (!(regex.test(entry.hostname) && regex.test(entry.groupname))) return;
+    if (!regex.test(entry.hostname)) return;
     listItem.innerHTML = `<tr>
             <td>${entry.hostname}</td>
             <td>${entry.groupname}</td>
@@ -120,7 +113,7 @@ var displayDataAsList = (data) => {
               <img src="pen.svg" class="actions" id="modify-${entry.hostname}"><img src="trash.svg" class="actions" id="delete-${entry.hostname}">
             </td>
           </tr>`;
-    
+
     resultList.appendChild(listItem);
     document
       .getElementById(`modify-${entry.hostname}`)
@@ -134,14 +127,13 @@ var displayDataAsList = (data) => {
     document
       .getElementById(`delete-${entry.hostname}`)
       .addEventListener("click", () => {
-        const res = window.confirm(`Are you sure you want to delete ${entry.hostname}?`);
+        const res = window.confirm(
+          `Are you sure you want to delete ${entry.hostname}?`
+        );
         if (res) {
           const dbPromise = openDB();
           dbPromise.then((db) => {
-            const transaction = db.transaction(
-              ["GrpNameConf"],
-              "readwrite"
-            );
+            const transaction = db.transaction(["GrpNameConf"], "readwrite");
             const objectStore = transaction.objectStore("GrpNameConf");
             const deleteRequest = objectStore.delete(entry.hostname);
 
@@ -151,13 +143,10 @@ var displayDataAsList = (data) => {
             };
 
             deleteRequest.onerror = (event) => {
-              console.error(
-                `Error deleting entry: ${event.target.error}`
-              );
+              console.error(`Error deleting entry: ${event.target.error}`);
             };
           });
         }
       });
   });
 };
-
