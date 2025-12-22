@@ -68,6 +68,8 @@ async function getGroupNameForHostname(hostname) {
 
   return new Promise((resolve, reject) => {
     console.log(hostname);
+    
+    // Try exact match first
     const request = objectStore.get(hostname);
 
     request.onsuccess = (event) => {
@@ -75,7 +77,38 @@ async function getGroupNameForHostname(hostname) {
       if (result) {
         resolve(result.groupname);
       } else {
-        resolve(null); // No entry found
+        // No exact match, try suffix matching
+        const parts = hostname.split('.');
+        
+        // Generate all possible suffixes, from most specific to least
+        // For "a.edge.ms.com", try: "edge.ms.com", "ms.com"
+        const tryNextSuffix = (index) => {
+          if (index >= parts.length - 1) {
+            // No more suffixes to try
+            resolve(null);
+            return;
+          }
+          
+          const suffix = parts.slice(index + 1).join('.');
+          const suffixRequest = objectStore.get(suffix);
+          
+          suffixRequest.onsuccess = (event) => {
+            const suffixResult = event.target.result;
+            if (suffixResult) {
+              resolve(suffixResult.groupname);
+            } else {
+              // Try next suffix
+              tryNextSuffix(index + 1);
+            }
+          };
+          
+          suffixRequest.onerror = (event) => {
+            reject(`Error retrieving data: ${event.target.error}`);
+          };
+        };
+        
+        // Start trying suffixes
+        tryNextSuffix(0);
       }
     };
 
