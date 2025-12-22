@@ -41,7 +41,7 @@ var insertData = async () => {
   const regex = /^[A-Za-z0-9\.\-]{1,100}$/;
   if (!regex.test(hostname)) {
     alert(
-      "- Invalid input. Only letters, numbers, dots, and hyphens are allowed, with a maximum length of 100 characters.\n- DO NOT include slashes, or http(s)://\n- Use Punycode domains (starting with xn--) for non-English hostnames."
+      "- Invalid input on hostname. Only letters, numbers, dots, and hyphens are allowed, with a maximum length of 100 characters.\n- DO NOT include slashes, or http(s)://\n- Use Punycode domains (starting with xn--) for non-English hostnames."
     );
     return;
   }
@@ -108,13 +108,15 @@ var displayDataAsList = (data) => {
     if (!regex.test(entry.hostname)) return;
     listItem.innerHTML = `<tr>
             <td>${entry.hostname}</td>
-            <td>${entry.groupname}</td>
+            <td id="groupnametemp">a</td>
             <td>
               <img src="pen.svg" class="actions" id="modify-${entry.hostname}"><img src="trash.svg" class="actions" id="delete-${entry.hostname}">
             </td>
           </tr>`;
 
     resultList.appendChild(listItem);
+    document.getElementById("groupnametemp").textContent = entry.groupname;
+    document.getElementById("groupnametemp").removeAttribute("id");
     document
       .getElementById(`modify-${entry.hostname}`)
       .addEventListener("click", () => {
