@@ -14,3 +14,4 @@ document.getElementById("save-entry").addEventListener("click", () => {
   //   document.querySelector(".modal").style.display = "none";
   //   listData(); // Refresh the displayed list after insertion
 });
+listData(); // Initial listing of data

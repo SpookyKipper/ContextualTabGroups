@@ -1,5 +1,106 @@
 import punycode from "./punycode.js";
 
+
+
+// Start of IndexedDB for Group Name Configurations
+
+var openDB = async () => {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("GrpNameConf", 2);
+
+    request.onerror = (event) => {
+      reject(`Error opening database: ${event.target.errorCode}`);
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      resolve(db);
+    };
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+
+      // Delete existing object store if it exists
+      if (db.objectStoreNames.contains("GrpNameConf")) {
+        db.deleteObjectStore("GrpNameConf");
+      }
+
+      const objectStore = db.createObjectStore("GrpNameConf", {
+        keyPath: "hostname",
+        autoIncrement: false,
+      });
+      objectStore.createIndex("hostname", "hostname", { unique: true });
+      objectStore.createIndex("groupname", "groupname", { unique: false });
+      loadDefaultValues();
+    };
+  });
+};
+
+
+async function loadDefaultValues() {
+  const db = await openDB();
+  const transaction = db.transaction(["GrpNameConf"], "readwrite");
+  const objectStore = transaction.objectStore("GrpNameConf");
+
+  objectStore.put({ hostname: "spooky.hk", groupname: "SpookyKipper" });
+  objectStore.put({ hostname: "spookysrv.com", groupname: "Spooky Services" });
+  objectStore.put({ hostname: "flow.spookysrv.com", groupname: "Flow" });
+  objectStore.put({ hostname: "ssl.com", groupname: "SSL.com" });
+  objectStore.put({
+    hostname: "bluearchive.nexon.com",
+    groupname: "Blue Archive",
+  });
+  objectStore.put({ hostname: "developer.mozilla.org", groupname: "MDN Docs" });
+  objectStore.put({ hostname: "gemini.google.com", groupname: "Gemini" });
+  objectStore.put({ hostname: "mail.google.com", groupname: "Gmail" });
+  objectStore.put({
+    hostname: "docs.google.com",
+    groupname: "Google Workspace",
+  });
+  objectStore.put({ hostname: "tw-pjsekai.com", groupname: "世界計劃" });
+}
+
+
+async function getGroupNameForHostname(hostname) {
+  const db = await openDB();
+  const transaction = db.transaction(["GrpNameConf"], "readonly");
+  const objectStore = transaction.objectStore("GrpNameConf");
+
+  return new Promise((resolve, reject) => {
+    console.log(hostname);
+    const request = objectStore.get(hostname);
+
+    request.onsuccess = (event) => {
+      const result = event.target.result;
+      if (result) {
+        resolve(result.groupname);
+      } else {
+        resolve(null); // No entry found
+      }
+    };
+
+    request.onerror = (event) => {
+      reject(`Error retrieving data: ${event.target.error}`);
+    };
+  });
+}
+// End IndexedDB functions //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const isFirefox = typeof browser !== "undefined";
 let tabMaps = new Map();
 
@@ -11,6 +112,12 @@ chrome.runtime.onInstalled.addListener(() => {
       tabMaps.set(tab.id, tab);
     });
   });
+
+  
+  loadDefaultValues();
+
+
+
 });
 
 // On updated, if tab was ungrouped, check if it was the last tab in the group and ungroup if so disband it
@@ -82,6 +189,11 @@ const formatDomainTitle = (url) => {
     url = url.split("/")[2];
     // Remove protocol (http:// or https://) if present
     url = url.replace(/^(https?:\/\/)?(www\.)?/, "");
+  }
+  return url;
+};
+const getGrpNameFromDomain = (url) => {
+  if (url.includes(".")) {
     // Split the domain by dots
     const parts = url.split(".");
 
@@ -152,8 +264,11 @@ const getSearchQueryUrlParam = (url) => {
   if (isYahoo) return "p";
   if (isBaidu) return "wd";
 };
+
+
 // Tab Group Naming Function //
-const nameTabGroup = (groupId, url) => {
+const nameTabGroup = async (groupId, url) => {
+  const customName = await getGroupNameForHostname(formatDomainTitle(url));
   chrome.storage.sync.get(
     {
       auto_created_group_name: "%domain%",
@@ -162,20 +277,34 @@ const nameTabGroup = (groupId, url) => {
     (items) => {
       let group_name_processed = "";
       if (items.auto_created_group_name != "") {
-        group_name_processed = items.auto_created_group_name.replaceAll(
-          "%domain%",
-          formatDomainTitle(url)
-        );
+        if (customName) {
+          group_name_processed = items.auto_created_group_name.replaceAll(
+            "%domain%",
+            customName
+          );
+        } else {
+          group_name_processed = items.auto_created_group_name.replaceAll(
+            "%domain%",
+            getGrpNameFromDomain(formatDomainTitle(url))
+          );
+        }
       }
       if (
         checkIsSearchEngine(url) &&
         items.auto_created_group_name_search_engine != ""
       ) {
         const searchQuery = getQueryParam(url, getSearchQueryUrlParam(url));
-        if (typeof searchQuery == "string")
-          group_name_processed = items.auto_created_group_name_search_engine
-            .replaceAll("%search_query%", searchQuery)
-            .replaceAll("%domain%", formatDomainTitle(url));
+        if (typeof searchQuery == "string") {
+          if (customName) {
+            group_name_processed = items.auto_created_group_name
+              .replaceAll("%domain%", customName)
+              .replaceAll("%search_query%", searchQuery);
+          } else {
+            group_name_processed = items.auto_created_group_name
+              .replaceAll("%domain%", getGrpNameFromDomain(formatDomainTitle(url)))
+              .replaceAll("%search_query%", searchQuery);
+          }
+        }
       }
       group_name_processed != "" &&
         chrome.tabGroups.update(groupId, { title: group_name_processed });
@@ -217,7 +346,7 @@ const checkTabFF = (tab, retries = 0) => {
       // Firefox mysteriously puts Tab Property opened with "<a> target _blank" with title "New Tab" (url about:blank) for a short while
       setTimeout(() => {
         checkTabFF(tab);
-      }, 25 * retries + 1)
+      }, 25 * retries + 1);
     } else {
       groupTabs(tab);
     }

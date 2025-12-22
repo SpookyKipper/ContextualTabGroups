@@ -1,8 +1,9 @@
 // Open the database
 var openDB = async () => {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open("GrpNameConf", 2);
 
+    const request = window.indexedDB.open("GrpNameConf", 2);
+ 
     request.onerror = (event) => {
       reject(`Error opening database: ${event.target.errorCode}`);
     };
@@ -26,27 +27,12 @@ var openDB = async () => {
       });
       objectStore.createIndex("hostname", "hostname", { unique: true });
       objectStore.createIndex("groupname", "groupname", { unique: false });
-      loadDefaultValues();
+      
     };
   });
 };
 
-async function loadDefaultValues() {
-  const db = await openDB();
-  const transaction = db.transaction(["GrpNameConf"], "readwrite");
-  const objectStore = transaction.objectStore("GrpNameConf");
 
-  objectStore.put({ hostname: "spooky.hk", groupname: "SpookyKipper" });
-  objectStore.put({ hostname: "spookysrv.com", groupname: "Spooky Services" });
-  objectStore.put({ hostname: "flow.spookysrv.com", groupname: "Flow" });
-  objectStore.put({ hostname: "ssl.com", groupname: "SSL.com" });
-  objectStore.put({ hostname: "bluearchive.nexon.com", groupname: "Blue Archive"});
-  objectStore.put({ hostname: "developer.mozilla.org", groupname: "MDN Docs" });
-  objectStore.put({ hostname: "gemini.google.com", groupname: "Gemini" });
-  objectStore.put({ hostname: "mail.google.com", groupname: "Gmail" });
-  objectStore.put({ hostname: "docs.google.com", groupname: "Google Workspace" });
-  objectStore.put({ hostname: "tw-pjsekai.com", groupname: "世界計劃" });
-}
 
 var insertData = async () => {
   const db = await openDB();
@@ -92,9 +78,12 @@ var deleteData = async () => {
 };
 // Function to list all data
 var listData = async () => {
+  
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readonly");
   const objectStore = transaction.objectStore("GrpNameConf");
+
+  
 
   const request = objectStore.getAll();
 
@@ -135,4 +124,3 @@ var displayDataAsList = (data) => {
   });
 };
 
-listData();
