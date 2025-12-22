@@ -44,6 +44,12 @@ var insertData = async () => {
     .value.replaceAll(" ", "");
   const groupname = document.getElementById("groupname").value;
 
+  const regex = /^[A-Za-z0-9\.\-]{1,100}$/;
+    if (!(regex.test(hostname) && regex.test(groupname))) {
+      alert("- Invalid input. Only letters, numbers, dots, and hyphens are allowed, with a maximum length of 100 characters.\n- DO NOT include slashes, or http(s)://\n- Use Punycode domains (starting with xn--) for non-English hostnames.");
+      return;
+    }
+
   const data = { hostname, groupname };
   const request = objectStore.put(data);
 
@@ -105,6 +111,8 @@ var displayDataAsList = (data) => {
 
   data.forEach((entry) => {
     const listItem = document.createElement("tbody");
+    const regex = /^[A-Za-z0-9\.\-]{1,100}$/;
+    if (!(regex.test(entry.hostname) && regex.test(entry.groupname))) return;
     listItem.innerHTML = `<tr>
             <td>${entry.hostname}</td>
             <td>${entry.groupname}</td>
@@ -112,6 +120,7 @@ var displayDataAsList = (data) => {
               <img src="pen.svg" class="actions" id="modify-${entry.hostname}"><img src="trash.svg" class="actions" id="delete-${entry.hostname}">
             </td>
           </tr>`;
+    
     resultList.appendChild(listItem);
     document
       .getElementById(`modify-${entry.hostname}`)
