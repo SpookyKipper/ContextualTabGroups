@@ -70,5 +70,23 @@ document
 document
   .getElementById("openGrpNameConf")
   .addEventListener("click", () => {
-    chrome.tabs.create({ url: "grpnameconf.html" });
+    // Open in iframe instead of new tab
+    const iframeContainer = document.getElementById("iframeContainer");
+    const configIframe = document.getElementById("configIframe");
+    configIframe.src = "grpnameconf.html";
+    setTimeout(() => {
+      iframeContainer.style.display = "block";
+      document.body.style.overflow = "hidden"; // Disable background scrolling
+    }, 50); // Slight delay to ensure iframe src is set before displaying
+  });
+
+// Close iframe handler
+document
+  .getElementById("closeIframe")
+  .addEventListener("click", () => {
+    const iframeContainer = document.getElementById("iframeContainer");
+    const configIframe = document.getElementById("configIframe");
+    iframeContainer.style.display = "none";
+    configIframe.src = ""; // Clear iframe content
+    document.body.style.overflow = "auto"; // Re-enable background scrolling
   });
