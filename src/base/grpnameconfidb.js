@@ -108,7 +108,7 @@ var displayDataAsList = (data) => {
     if (!regex.test(entry.hostname)) return;
     listItem.innerHTML = `<tr>
             <td>${entry.hostname}</td>
-            <td id="groupnametemp">a</td>
+            <td id="groupnametemp">Load failed</td>
             <td>
               <img src="pen.svg" class="actions" id="modify-${entry.hostname}"><img src="trash.svg" class="actions" id="delete-${entry.hostname}">
             </td>
