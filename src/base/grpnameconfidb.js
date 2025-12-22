@@ -121,6 +121,34 @@ var displayDataAsList = (data) => {
         document.getElementById("hostname").setAttribute("disabled", "true");
         document.getElementById("groupname").value = entry.groupname;
       });
+
+    document
+      .getElementById(`delete-${entry.hostname}`)
+      .addEventListener("click", () => {
+        const res = window.confirm(`Are you sure you want to delete ${entry.hostname}?`);
+        if (res) {
+          const dbPromise = openDB();
+          dbPromise.then((db) => {
+            const transaction = db.transaction(
+              ["GrpNameConf"],
+              "readwrite"
+            );
+            const objectStore = transaction.objectStore("GrpNameConf");
+            const deleteRequest = objectStore.delete(entry.hostname);
+
+            deleteRequest.onsuccess = () => {
+              console.log(`Entry with hostname ${entry.hostname} deleted.`);
+              window.location.reload();
+            };
+
+            deleteRequest.onerror = (event) => {
+              console.error(
+                `Error deleting entry: ${event.target.error}`
+              );
+            };
+          });
+        }
+      });
   });
 };
 
