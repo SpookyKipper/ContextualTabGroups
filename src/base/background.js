@@ -329,11 +329,11 @@ const nameTabGroup = async (groupId, url) => {
         const searchQuery = getQueryParam(url, getSearchQueryUrlParam(url));
         if (typeof searchQuery == "string") {
           if (customName) {
-            group_name_processed = items.auto_created_group_name
+            group_name_processed = items.auto_created_group_name_search_engine
               .replaceAll("%domain%", customName)
               .replaceAll("%search_query%", searchQuery);
           } else {
-            group_name_processed = items.auto_created_group_name
+            group_name_processed = items.auto_created_group_name_search_engine
               .replaceAll("%domain%", getGrpNameFromDomain(formatDomainTitle(url)))
               .replaceAll("%search_query%", searchQuery);
           }
