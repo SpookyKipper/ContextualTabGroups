@@ -115,7 +115,8 @@ async function getGroupNameForHostname(hostname) {
 }
 // End IndexedDB functions //
 
-const isFirefox = typeof browser !== "undefined";
+const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
+// const isChrome = browser.runtime.getURL("").startsWith("chrome-extension://");
 let tabMaps = new Map();
 
 // On extension startup, load all tabs into map. Prevents lone tab no ungrouped due to no previous tab data.
