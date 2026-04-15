@@ -1,7 +1,5 @@
 import punycode from "./punycode.js";
 
-
-
 // Start of IndexedDB for Group Name Configurations
 
 var openDB = async () => {
@@ -36,7 +34,6 @@ var openDB = async () => {
   });
 };
 
-
 async function loadDefaultValues() {
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readwrite");
@@ -60,7 +57,6 @@ async function loadDefaultValues() {
   objectStore.put({ hostname: "tw-pjsekai.com", groupname: "世界計劃" });
 }
 
-
 async function getGroupNameForHostname(hostname) {
   const db = await openDB();
   const transaction = db.transaction(["GrpNameConf"], "readonly");
@@ -68,7 +64,7 @@ async function getGroupNameForHostname(hostname) {
 
   return new Promise((resolve, reject) => {
     console.log(hostname);
-    
+
     // Try exact match first
     const request = objectStore.get(hostname);
 
@@ -78,8 +74,8 @@ async function getGroupNameForHostname(hostname) {
         resolve(result.groupname);
       } else {
         // No exact match, try suffix matching
-        const parts = hostname.split('.');
-        
+        const parts = hostname.split(".");
+
         // Generate all possible suffixes, from most specific to least
         // For "a.edge.ms.com", try: "edge.ms.com", "ms.com"
         const tryNextSuffix = (index) => {
@@ -88,10 +84,10 @@ async function getGroupNameForHostname(hostname) {
             resolve(null);
             return;
           }
-          
-          const suffix = parts.slice(index + 1).join('.');
+
+          const suffix = parts.slice(index + 1).join(".");
           const suffixRequest = objectStore.get(suffix);
-          
+
           suffixRequest.onsuccess = (event) => {
             const suffixResult = event.target.result;
             if (suffixResult) {
@@ -101,12 +97,12 @@ async function getGroupNameForHostname(hostname) {
               tryNextSuffix(index + 1);
             }
           };
-          
+
           suffixRequest.onerror = (event) => {
             reject(`Error retrieving data: ${event.target.error}`);
           };
         };
-        
+
         // Start trying suffixes
         tryNextSuffix(0);
       }
@@ -118,21 +114,6 @@ async function getGroupNameForHostname(hostname) {
   });
 }
 // End IndexedDB functions //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const isFirefox = typeof browser !== "undefined";
 let tabMaps = new Map();
@@ -146,11 +127,7 @@ chrome.runtime.onInstalled.addListener(() => {
     });
   });
 
-  
   loadDefaultValues();
-
-
-
 });
 
 // On updated, if tab was ungrouped, check if it was the last tab in the group and ungroup if so disband it
@@ -208,7 +185,7 @@ function disbandLoneGroup(groupId, retries = 0) {
           // Firefox takes a while to update
           setTimeout(() => {
             disbandLoneGroup(groupId, retries + 1);
-          }, 5);
+          }, 20);
         }
       });
     }
@@ -298,7 +275,6 @@ const getSearchQueryUrlParam = (url) => {
   if (isBaidu) return "wd";
 };
 
-
 // Tab Group Naming Function //
 const nameTabGroup = async (groupId, url) => {
   const customName = await getGroupNameForHostname(formatDomainTitle(url));
@@ -313,12 +289,12 @@ const nameTabGroup = async (groupId, url) => {
         if (customName) {
           group_name_processed = items.auto_created_group_name.replaceAll(
             "%domain%",
-            customName
+            customName,
           );
         } else {
           group_name_processed = items.auto_created_group_name.replaceAll(
             "%domain%",
-            getGrpNameFromDomain(formatDomainTitle(url))
+            getGrpNameFromDomain(formatDomainTitle(url)),
           );
         }
       }
@@ -334,14 +310,17 @@ const nameTabGroup = async (groupId, url) => {
               .replaceAll("%search_query%", searchQuery);
           } else {
             group_name_processed = items.auto_created_group_name_search_engine
-              .replaceAll("%domain%", getGrpNameFromDomain(formatDomainTitle(url)))
+              .replaceAll(
+                "%domain%",
+                getGrpNameFromDomain(formatDomainTitle(url)),
+              )
               .replaceAll("%search_query%", searchQuery);
           }
         }
       }
       group_name_processed != "" &&
         chrome.tabGroups.update(groupId, { title: group_name_processed });
-    }
+    },
   );
 };
 // Group Tabs //
@@ -377,9 +356,12 @@ const checkTabFF = (tab, retries = 0) => {
     // console.log(tab);
     if (tab.url === "about:blank" && tab.title === "New Tab" && isFirefox) {
       // Firefox mysteriously puts Tab Property opened with "<a> target _blank" with title "New Tab" (url about:blank) for a short while
-      setTimeout(() => {
-        checkTabFF(tab);
-      }, 25 * retries + 1);
+      setTimeout(
+        () => {
+          checkTabFF(tab);
+        },
+        25 * retries + 1,
+      );
     } else {
       groupTabs(tab);
     }
@@ -430,7 +412,7 @@ const groupTabsAction = (tab) => {
           },
           (groupId) => {
             nameTabGroup(groupId, openerTab.url);
-          }
+          },
         );
       }
     });
@@ -469,7 +451,7 @@ function safeUngroupTab(tabId, retry = 0) {
           chrome.runtime.lastError &&
           chrome.runtime.lastError.message &&
           chrome.runtime.lastError.message.includes(
-            "Tabs cannot be edited right now"
+            "Tabs cannot be edited right now",
           )
         ) {
           // Tab is being dragged by user, wait and retry
