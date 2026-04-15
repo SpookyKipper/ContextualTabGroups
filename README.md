@@ -28,11 +28,11 @@ Most Chromium & Firefox forks (aside from the ones below) should work, but may i
 - Zen Browser
   - Use this userChrome.css: https://github.com/Vertex-Mods/Advanced-Tab-Groups/blob/main/userChrome.css
   - This userChrome.css is not affiliated with this extension, but it does the job!
-
-## ❌ Unsupported Browsers
 - Opera One & Opera GX
-  - This is a built-in feature within the browser
-  - Extension conflicts with it
+  - Disable "Automatically create Tab Islands" (let this extension handles it)
+    
+## ❌ Unsupported Browsers
+
 - Vivaldi
   - Does not support Tab Groups API
 - Kiwi, Quetta, Orion or any mobile browsers that allows Chrome Extensions
