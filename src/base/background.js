@@ -164,7 +164,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
   tabMaps.delete(tabId);
 });
 
-chrome.tabs.onDetached.addListener((tab) => {
+chrome.tabs.onDetached.addListener((tabId) => {
   const tabProp = tabMaps.get(tabId);
   if (typeof tabProp != "undefined" && tabProp.groupId >= 0) {
     disbandLoneGroup(tabProp.groupId);
@@ -328,7 +328,7 @@ const nameTabGroup = async (groupId, url) => {
 // Check if pending url is here //
 const groupTabs = (tab) => {
   if (typeof tab == "undefined") return;
-
+  console.debug("Checking tab: ", tab);
   if (
     (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (isFirefox && typeof tab.title != "undefined" && tab.title !== "")
