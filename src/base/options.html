@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -49,11 +49,8 @@
     </div>
 
     <div class="option-container">
-      Modify %domain% placeholder behavior <button
-        id="openGrpNameConf">
-        Configure
-      </button> 
-      
+      Modify %domain% placeholder behavior
+      <button id="openGrpNameConf">Configure</button>
     </div>
     <div class="option-container">
       <label>
@@ -65,10 +62,7 @@
     <div class="option-container">
       Modify Open in current (new) Tab Group hotkey<br />
       Default: Alt+T
-      <button
-        id="openKeyboardShortcut">
-        Modify Shortcut
-      </button>
+      <button id="openKeyboardShortcut">Modify Shortcut</button>
       <p class="note" id="firefoxNote">
         Firefox's menu bar may interfere with the default Alt+T shortcut. Please
         either:<br />
@@ -78,12 +72,52 @@
       </p>
     </div>
 
-    <div id="status"></div>
+    <div class="option-container">
+      <div>
+        Extension Version: <span id="version">Failed to get version.</span>
+      </div>
+    </div>
+
+    <div id="status" class="sa-text"></div>
+
     <button id="save" style="width: 100%">Save Changes</button>
 
     <!-- Fullscreen iframe container -->
-    <div id="iframeContainer" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.9); z-index: 9999">
-<button id="closeIframe" style="position: absolute;right: calc(2.5vw + 10px);top: calc(2.5vh + 10px);">Close</button>      <iframe id="configIframe" style="width: 95vw; height: 95vh; border: none; margin: 2.5vh 2.5vw; background-color: #100f10; border-radius: 0.5rem;border: 2px solid #6f65dc"></iframe>
+    <div
+      id="iframeContainer"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+      "
+    >
+      <button
+        id="closeIframe"
+        style="
+          position: absolute;
+          right: calc(2.5vw + 10px);
+          top: calc(2.5vh + 10px);
+        "
+      >
+        Close
+      </button>
+      <iframe
+        id="configIframe"
+        style="
+          width: 95vw;
+          height: 95vh;
+          border: none;
+          margin: 2.5vh 2.5vw;
+          background-color: #100f10;
+          border-radius: 0.5rem;
+          border: 2px solid #6f65dc;
+        "
+      ></iframe>
     </div>
 
     <script src="options.js"></script>

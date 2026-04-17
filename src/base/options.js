@@ -89,3 +89,13 @@ document.getElementById("closeIframe").addEventListener("click", () => {
   configIframe.src = ""; // Clear iframe content
   document.body.style.overflow = "auto"; // Re-enable background scrolling
 });
+
+// Populate version number
+fetch(chrome.runtime.getURL("manifest.json"))
+  .then((response) => response.json())
+  .then((manifest) => {
+    document.getElementById("version").textContent = manifest.version;
+  })
+  .catch((error) => {
+    console.error("Error fetching manifest.json:", error);
+  });
