@@ -1,4 +1,4 @@
-const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
+const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
 
 // Saves options to chrome.storage
 const saveOptions = () => {
