@@ -425,7 +425,7 @@ const groupTabsAction = (tab) => {
     }
   }
 
-  if (isChrome) {
+  if (isChrome && typeof tab.openerTabId != "undefined") {
     // Check if window & opener window is not a popup
     console.log(tab);
     console.log(tabMaps.get(tab.openerTabId));
