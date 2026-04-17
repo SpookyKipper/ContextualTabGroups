@@ -1,5 +1,17 @@
 import punycode from "./punycode.js";
+const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
+const isChrome = chrome.runtime.getURL("").startsWith("chrome-extension://");
 
+// Genuine Tabs mean Tabs opened via browser click, and not a desktop shortcut or external link.
+// Chrome put desktop shortcuts openerTabId as the one in active tab, no idea why.
+// Not required on Firefox
+const genuineNewTabs = new Set();
+if (isChrome) {
+  chrome.webNavigation.onCreatedNavigationTarget.addListener((details) => {
+    console.log("New tab detected in onCreatedNavigationTarget: ", details);
+    genuineNewTabs.add(details.tabId);
+  });
+}
 // Start of IndexedDB for Group Name Configurations
 
 var openDB = async () => {
@@ -115,8 +127,6 @@ async function getGroupNameForHostname(hostname) {
 }
 // End IndexedDB functions //
 
-const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
-const isChrome = chrome.runtime.getURL("").startsWith("chrome-extension://");
 let tabMaps = new Map();
 
 // On extension startup, load all tabs into map. Prevents lone tab no ungrouped due to no previous tab data.
@@ -395,15 +405,15 @@ const groupTabsAction = (tab) => {
     } else {
       return (
         tab.pendingUrl &&
-        // !tab.pendingUrl.startsWith("chrome://") &&
-        // !tab.pendingUrl.startsWith("chrome-untrusted://") &&
-        // !tab.pendingUrl.startsWith("extension://") &&
-        // !tab.pendingUrl.startsWith("chrome-extension://") &&
-        // !tab.pendingUrl.startsWith("edge://") &&
-        // !tab.pendingUrl.startsWith("about:") &&
-        !tab.pendingUrl.includes("ntp.msn") &&
-        (tab.pendingUrl.startsWith("http://") ||
-          tab.pendingUrl.startsWith("https://")) // do not group if opened from file shortcut (Chrome puts openerTabId for those for unknown reason)
+        !tab.pendingUrl.startsWith("chrome://") &&
+        !tab.pendingUrl.startsWith("chrome-untrusted://") &&
+        !tab.pendingUrl.startsWith("extension://") &&
+        !tab.pendingUrl.startsWith("chrome-extension://") &&
+        !tab.pendingUrl.startsWith("edge://") &&
+        !tab.pendingUrl.startsWith("about:") &&
+        !tab.pendingUrl.includes("ntp.msn")
+        // (tab.pendingUrl.startsWith("http://") ||
+        //   tab.pendingUrl.startsWith("https://")) // do not group if opened from file shortcut (Chrome puts openerTabId for those for unknown reason)
       );
     }
   }
@@ -425,37 +435,59 @@ const groupTabsAction = (tab) => {
     }
   }
 
-  if (isChrome && typeof tab.openerTabId != "undefined") {
-    // Check if window & opener window is not a popup
-    console.log(tab);
-    console.log(tabMaps.get(tab.openerTabId));
-    chrome.windows
-      .get(tabMaps.get(tab.openerTabId).windowId)
-      .then((window) => {
-        if (window.type != "popup") {
-          console.log("Opener window is not a popup, proceeding to group tab");
+  if (isChrome) {
+    function checkLaunchedFromShortcut(time = 0) {
+      if (genuineNewTabs.has(tab.id)) {
+        console.log("Tab is genuine, proceeding to group check");
+        genuineNewTabs.delete(tab.id); // cleanup to prevent memory leak
+        if (typeof tab.openerTabId != "undefined") {
+          // Check if window & opener window is not a popup
+          console.log(tab);
+          console.log(tabMaps.get(tab.openerTabId));
           chrome.windows
-            .get(tab.windowId)
-            .then((currentWindow) => {
-              if (currentWindow.type != "popup") {
-                proceedGroupTab();
+            .get(tabMaps.get(tab.openerTabId).windowId)
+            .then((window) => {
+              if (window.type != "popup") {
                 console.log(
-                  "Current window is not a popup, proceeding to group tab",
+                  "Opener window is not a popup, proceeding to group tab",
                 );
+                chrome.windows
+                  .get(tab.windowId)
+                  .then((currentWindow) => {
+                    if (currentWindow.type != "popup") {
+                      proceedGroupTab();
+                      console.log(
+                        "Current window is not a popup, proceeding to group tab",
+                      );
+                    } else {
+                      console.log(
+                        "Current window is a popup, not grouping tab",
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    console.error("Error retrieving current window:", error);
+                  });
               } else {
-                console.log("Current window is a popup, not grouping tab");
+                console.log("Opener window is a popup, not grouping tab");
               }
             })
             .catch((error) => {
-              console.error("Error retrieving current window:", error);
+              console.error("Error retrieving window:", error);
             });
-        } else {
-          console.log("Opener window is a popup, not grouping tab");
         }
-      })
-      .catch((error) => {
-        console.error("Error retrieving window:", error);
-      });
+      } else {
+        if (time < 20) {
+          setTimeout(() => {
+            checkLaunchedFromShortcut(time + 1);
+          }, 50); // wait
+        } else {
+          console.log("Tab is likely opened from shortcut, skipping grouping.");
+        }
+      }
+    }
+
+    checkLaunchedFromShortcut();
   } else {
     // Firefox
     proceedGroupTab();

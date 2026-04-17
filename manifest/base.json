@@ -12,7 +12,13 @@
     "64": "icons/tab_islands64.png",
     "128": "icons/tab_islands128.png"
   },
-  "permissions": ["tabs", "tabGroups", "storage", "unlimitedStorage"],
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage",
+    "unlimitedStorage",
+    "webNavigation"
+  ],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
