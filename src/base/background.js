@@ -115,13 +115,14 @@ async function getGroupNameForHostname(hostname) {
 }
 // End IndexedDB functions //
 
-const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
-const isChrome = browser.runtime.getURL("").startsWith("chrome-extension://");
+const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
+const isChrome = chrome.runtime.getURL("").startsWith("chrome-extension://");
 let tabMaps = new Map();
 
 // On extension startup, load all tabs into map. Prevents lone tab no ungrouped due to no previous tab data.
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed or updated!");
+  console.log("Firefox: ", isFirefox, " Chrome: ", isChrome);
   chrome.tabs.query({}, function (tabs) {
     tabs.forEach(function (tab) {
       tabMaps.set(tab.id, tab);
