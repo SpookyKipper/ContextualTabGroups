@@ -1,3 +1,5 @@
+const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
+
 // Saves options to chrome.storage
 const saveOptions = () => {
   const auto_disband_group =
@@ -50,7 +52,6 @@ const restoreOptions = () => {
 document.addEventListener("DOMContentLoaded", restoreOptions);
 document.getElementById("save").addEventListener("click", saveOptions);
 
-const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
 document
   .getElementById("openKeyboardShortcut")
   .addEventListener("click", () => {
@@ -63,7 +64,7 @@ document
     }
   });
 
-if (typeof browser != "undefined") {
+if (isFirefox) {
   document.getElementById("firefoxNote").style.display = "block";
 } else {
   document.getElementById("firefoxNote").style.display = "none";
