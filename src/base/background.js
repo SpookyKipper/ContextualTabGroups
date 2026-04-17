@@ -116,7 +116,7 @@ async function getGroupNameForHostname(hostname) {
 // End IndexedDB functions //
 
 const isFirefox = browser.runtime.getURL("").startsWith("moz-extension://");
-// const isChrome = browser.runtime.getURL("").startsWith("chrome-extension://");
+const isChrome = browser.runtime.getURL("").startsWith("chrome-extension://");
 let tabMaps = new Map();
 
 // On extension startup, load all tabs into map. Prevents lone tab no ungrouped due to no previous tab data.
@@ -328,7 +328,6 @@ const nameTabGroup = async (groupId, url) => {
 // Check if pending url is here //
 const groupTabs = (tab) => {
   if (typeof tab == "undefined") return;
-  console.debug("Checking tab: ", tab);
   if (
     (typeof tab.pendingUrl != "undefined" && tab.pendingUrl !== "") ||
     (isFirefox && typeof tab.title != "undefined" && tab.title !== "")
@@ -370,7 +369,9 @@ const checkTabFF = (tab, retries = 0) => {
 };
 // actually group the tabs //
 const groupTabsAction = (tab) => {
-  // console.log(tab);
+  console.log("Grouping tabs for tab: ", tab);
+  console.log(tabMaps.get(tab.openerTabId));
+
   function checkurl() {
     if (isFirefox) {
       if (tab.url === "about:blank") {
@@ -404,19 +405,55 @@ const groupTabsAction = (tab) => {
     }
   }
 
-  if (tab.openerTabId && checkurl() && tab.groupId === -1) {
-    chrome.tabs.get(tab.openerTabId, (openerTab) => {
-      if (!openerTab.pinned) {
-        chrome.tabs.group(
-          {
-            tabIds: [tab.openerTabId, tab.id],
-          },
-          (groupId) => {
-            nameTabGroup(groupId, openerTab.url);
-          },
-        );
-      }
-    });
+  function proceedGroupTab() {
+    if (tab.openerTabId && checkurl() && tab.groupId === -1) {
+      chrome.tabs.get(tab.openerTabId, (openerTab) => {
+        if (!openerTab.pinned) {
+          chrome.tabs.group(
+            {
+              tabIds: [tab.openerTabId, tab.id],
+            },
+            (groupId) => {
+              nameTabGroup(groupId, openerTab.url);
+            },
+          );
+        }
+      });
+    }
+  }
+
+  if (isChrome) {
+    // Check if window & opener window is not a popup
+    chrome.windows
+      .get(tabMaps.get(tab.openerTabId).windowId)
+      .then((window) => {
+        if (window.type != "popup") {
+          console.log("Opener window is not a popup, proceeding to group tab");
+          chrome.windows
+            .get(tab.windowId)
+            .then((currentWindow) => {
+              if (currentWindow.type != "popup") {
+                proceedGroupTab();
+                console.log(
+                  "Current window is not a popup, proceeding to group tab",
+                );
+              } else {
+                console.log("Current window is a popup, not grouping tab");
+              }
+            })
+            .catch((error) => {
+              console.error("Error retrieving current window:", error);
+            });
+        } else {
+          console.log("Opener window is a popup, not grouping tab");
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving window:", error);
+      });
+  } else {
+    // Firefox
+    proceedGroupTab();
   }
 };
 
