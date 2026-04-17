@@ -371,7 +371,7 @@ const checkTabFF = (tab, retries = 0) => {
 // actually group the tabs //
 const groupTabsAction = (tab) => {
   console.log("Grouping tabs for tab: ", tab);
-  console.log(tabMaps.get(tab.openerTabId));
+  // console.log(tabMaps.get(tab.openerTabId));
 
   function checkurl() {
     if (isFirefox) {
@@ -395,13 +395,15 @@ const groupTabsAction = (tab) => {
     } else {
       return (
         tab.pendingUrl &&
-        !tab.pendingUrl.startsWith("chrome://") &&
-        !tab.pendingUrl.startsWith("chrome-untrusted://") &&
-        !tab.pendingUrl.startsWith("extension://") &&
-        !tab.pendingUrl.startsWith("chrome-extension://") &&
-        !tab.pendingUrl.startsWith("edge://") &&
-        !tab.pendingUrl.startsWith("about:") &&
-        !tab.pendingUrl.includes("ntp.msn")
+        // !tab.pendingUrl.startsWith("chrome://") &&
+        // !tab.pendingUrl.startsWith("chrome-untrusted://") &&
+        // !tab.pendingUrl.startsWith("extension://") &&
+        // !tab.pendingUrl.startsWith("chrome-extension://") &&
+        // !tab.pendingUrl.startsWith("edge://") &&
+        // !tab.pendingUrl.startsWith("about:") &&
+        !tab.pendingUrl.includes("ntp.msn") &&
+        (tab.pendingUrl.startsWith("http://") ||
+          tab.pendingUrl.startsWith("https://")) // do not group if opened from file shortcut (Chrome puts openerTabId for those for unknown reason)
       );
     }
   }
@@ -425,6 +427,8 @@ const groupTabsAction = (tab) => {
 
   if (isChrome) {
     // Check if window & opener window is not a popup
+    console.log(tab);
+    console.log(tabMaps.get(tab.openerTabId));
     chrome.windows
       .get(tabMaps.get(tab.openerTabId).windowId)
       .then((window) => {
@@ -464,15 +468,35 @@ chrome.commands.onCommand.addListener((command) => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
       const tab = tabs[0];
       if (!tab.pinned) {
-        chrome.tabs.create({ active: true, index: tab.index + 1 }, (newtab) => {
-          if (tab.groupId >= 0) {
-            chrome.tabs.group({ tabIds: [newtab.id], groupId: tab.groupId });
-          } else {
-            chrome.tabs.group({ tabIds: [tab.id, newtab.id] }, (groupId) => {
-              nameTabGroup(groupId, tab.url);
-            });
-          }
-        });
+        chrome.windows
+          .get(tab.windowId)
+          .then((currentWindow) => {
+            if (currentWindow.type != "popup") {
+              chrome.tabs.create(
+                { active: true, index: tab.index + 1 },
+                (newtab) => {
+                  if (tab.groupId >= 0) {
+                    chrome.tabs.group({
+                      tabIds: [newtab.id],
+                      groupId: tab.groupId,
+                    });
+                  } else {
+                    chrome.tabs.group(
+                      { tabIds: [tab.id, newtab.id] },
+                      (groupId) => {
+                        nameTabGroup(groupId, tab.url);
+                      },
+                    );
+                  }
+                },
+              );
+            } else {
+              console.log("Current window is a popup, not grouping tab");
+            }
+          })
+          .catch((error) => {
+            console.error("Error retrieving current window:", error);
+          });
       }
     });
   }
