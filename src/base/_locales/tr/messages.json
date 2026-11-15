@@ -1,0 +1,268 @@
+{
+  "langCode": {
+    "message": "tr"
+  },
+  "extName": {
+    "message": "Contextual Tab Groups - Yeni sekme açılınca otomatik grup oluştur"
+  },
+  "extNameAlt": {
+    "message": "Contextual Tab Groups - Sekmeleri bağlama göre grupla"
+  },
+  "extShortName": {
+    "message": "Contextual Tab Groups"
+  },
+  "extDesc": {
+    "message": "Sekmelerinizi bağlama göre otomatik olarak gruplar. Opera One'dan esinlenilmiştir."
+  },
+  "extDescShort": {
+    "message": "Sekmelerinizi bağlama göre otomatik olarak gruplar."
+  },
+  "cmdNewTabInGroup": {
+    "message": "Grupta yeni sekme / Yeni grup oluştur"
+  },
+  "saveChanges": {
+    "message": "Değişiklikleri Kaydet"
+  },
+  "optionsTitle": {
+    "message": "Contextual Tab Groups Ayarları"
+  },
+  "optDefaultName": {
+    "message": "Otomatik oluşturulan grupların adı (Varsayılan)"
+  },
+  "optLeaveEmptyNone": {
+    "message": "Ad vermemek için boş bırakın"
+  },
+  "optPlaceholders": {
+    "message": "Kullanılabilir yer tutucular:"
+  },
+  "optSearchName": {
+    "message": "Otomatik oluşturulan grupların adı (Arama Motorları)"
+  },
+  "optSearchLeaveEmpty": {
+    "message": "Varsayılanı kullanmak için boş bırakın (varsayılan olarak kapalı: grup adları tarayıcı hesabınıza senkronize olabilir)"
+  },
+  "optSupportedEngines": {
+    "message": "Desteklenen arama motorları:"
+  },
+  "optStartpageNote": {
+    "message": "Startpage için not:"
+  },
+  "optStartpage1": {
+    "message": "1. Deneysel, çalışmayabilir"
+  },
+  "optStartpage2": {
+    "message": "2. Lütfen \"HTTP request method\" ayarını \"GET\" yapın:"
+  },
+  "optAutoDisband": {
+    "message": "Tek sekmesi kalan grupları otomatik dağıt"
+  },
+  "optHotkey": {
+    "message": "\"Geçerli (yeni) sekme grubunda aç\" kısayolunu değiştir"
+  },
+  "optHotkeyDefault": {
+    "message": "Varsayılan: Alt+T"
+  },
+  "modifyShortcut": {
+    "message": "Kısayolu Değiştir"
+  },
+  "optFirefoxNote": {
+    "message": "Firefox'un menü çubuğu varsayılan Alt+T kısayoluyla çakışabilir. Şunlardan birini yapın:"
+  },
+  "optFirefox1": {
+    "message": "1. Kısayolu kendiniz başka bir tuşa atayın"
+  },
+  "optFirefox2a": {
+    "message": "2."
+  },
+  "optFirefox2b": {
+    "message": "sayfasında"
+  },
+  "optFirefox2c": {
+    "message": "değerini şu yapın:"
+  },
+  "optVersion": {
+    "message": "Eklenti sürümü:"
+  },
+  "optionsSaved": {
+    "message": "Ayarlar kaydedildi."
+  },
+  "color_grey": {
+    "message": "gri"
+  },
+  "color_blue": {
+    "message": "mavi"
+  },
+  "color_red": {
+    "message": "kırmızı"
+  },
+  "color_yellow": {
+    "message": "sarı"
+  },
+  "color_green": {
+    "message": "yeşil"
+  },
+  "color_pink": {
+    "message": "pembe"
+  },
+  "color_purple": {
+    "message": "mor"
+  },
+  "color_cyan": {
+    "message": "camgöbeği"
+  },
+  "color_orange": {
+    "message": "turuncu"
+  },
+  "errInvalidHostname": {
+    "message": "- Geçersiz domain. github.com gibi bir domain gir: harf, rakam, nokta ve tire; en az bir nokta, en fazla 100 karakter.\n- Tam URL de yapıştırabilirsin, domain otomatik alınır.\n- İngilizce dışı domain'ler için Punycode (xn-- ile başlayan) kullan."
+  },
+  "errInvalidColor": {
+    "message": "Geçersiz renk."
+  },
+  "errNameRequired": {
+    "message": "Grup adı zorunlu."
+  },
+  "popupIntro": {
+    "message": "Bağlama göre sekme grupları, otomatik grup oluşturma. Opera One'dan esinlenilmiştir."
+  },
+  "goToOptions": {
+    "message": "Ayarlara Git"
+  },
+  "disbandAll": {
+    "message": "Tüm sekme gruplarını dağıt"
+  },
+  "areYouSure": {
+    "message": "Emin misiniz?"
+  },
+  "done": {
+    "message": "Tamamlandı!"
+  },
+  "navBehavior": {
+    "message": "Davranış"
+  },
+  "navGroups": {
+    "message": "Gruplar"
+  },
+  "groupsIntro": {
+    "message": "Renkli bir grubun altındaki domain'lerden biri açılınca sekme o gruba taşınır (pencerede yoksa grup oluşturulur). Rengi olmayan grup sadece %domain% için kullanılan grup adını belirler."
+  },
+  "newGroup": {
+    "message": "Yeni grup"
+  },
+  "groupNamePh": {
+    "message": "Grup adı"
+  },
+  "colorLabel": {
+    "message": "Grup rengi"
+  },
+  "colorNoneShort": {
+    "message": "Renk yok (sadece ad)"
+  },
+  "save": {
+    "message": "Kaydet"
+  },
+  "cancel": {
+    "message": "İptal"
+  },
+  "edit": {
+    "message": "Düzenle"
+  },
+  "add": {
+    "message": "Ekle"
+  },
+  "deleteGroup": {
+    "message": "Grubu sil"
+  },
+  "deleteDomain": {
+    "message": "$HOST$ kaldır",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPh": {
+    "message": "Domain ekle, ör. github.com"
+  },
+  "useGroupColor": {
+    "message": "Grup rengi"
+  },
+  "overrideHint": {
+    "message": "Renk ezme: sadece grup bu domain'den açılan bir sekmeyle oluşturulursa kullanılır"
+  },
+  "emptyGroups": {
+    "message": "Henüz grup yok. “Yeni grup” ile oluştur."
+  },
+  "emptyDomains": {
+    "message": "Henüz domain yok."
+  },
+  "errGroupExists": {
+    "message": "“$NAME$” adlı bir grup zaten var.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmMoveDomain": {
+    "message": "$HOST$ şu an “$GROUP$” grubunda. Buraya taşınsın mı?",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      },
+      "group": {
+        "content": "$2"
+      }
+    }
+  },
+  "confirmDeleteGroup": {
+    "message": "“$NAME$” grubu ve $COUNT$ domain'i silinsin mi?",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "welcomeTitle": {
+    "message": "Contextual Tab Groups'a hoş geldin"
+  },
+  "welcomeIntro": {
+    "message": "Bu eklenti sekmelerini senin yerine gruplar: bir sekmeden açtığın yeni sekme onunla aynı gruba girer, seçtiğin sitelere giden sekmeler de kendi renkli gruplarına taşınır."
+  },
+  "welcomeQuickStart": {
+    "message": "Hızlı başlangıç: ilk grubun"
+  },
+  "welcomeStep1": {
+    "message": "Gruplar sekmesine geç ve “Yeni grup”a tıkla."
+  },
+  "welcomeStep2": {
+    "message": "Bir ad ve renk seç, ör. “Dev”, sarı."
+  },
+  "welcomeStep3": {
+    "message": "Altına bir domain ekle, ör. github.com. Alt alan adları da eşleşir (gist.github.com)."
+  },
+  "welcomeStep4": {
+    "message": "github.com'u aç: sekme kendiliğinden sarı “Dev” grubuna geçer."
+  },
+  "welcomeStart": {
+    "message": "İlk grubumu oluştur"
+  },
+  "welcomeAlsoTitle": {
+    "message": "Bilmekte fayda var"
+  },
+  "welcomeTip1": {
+    "message": "Bir linki yeni sekmede açınca iki sekme otomatik olarak gruplanır."
+  },
+  "welcomeTip2": {
+    "message": "Alt+T, aktif sekmenin grubunda yeni bir sekme açar."
+  },
+  "welcomeTip3": {
+    "message": "Davranış sekmesinden otomatik grup adlarını ve tek sekmeli grupların dağıtılıp dağıtılmayacağını ayarlayabilirsin."
+  },
+  "welcomePrivacy": {
+    "message": "Her şey cihazında kalır; eklenti hiçbir yere veri göndermez."
+  }
+}

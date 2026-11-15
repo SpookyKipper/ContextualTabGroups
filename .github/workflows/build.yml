@@ -1,0 +1,70 @@
+# Builds installable zips for Chrome, Edge and Firefox.
+# - push to main / pull request / manual run: zips are downloadable from the run's "Artifacts".
+# - tag "vX.Y.Z" (must match manifest/base.json version): zips are attached to the GitHub Release.
+# Third-party actions are pinned to commit SHAs (supply-chain safety); update them deliberately.
+name: Build extension packages
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Test
+        run: node tests/rules.check.mjs
+
+      - name: Build and zip
+        run: |
+          version=$(node -p "require('./manifest/base.json').version")
+          if [[ "$GITHUB_REF" == refs/tags/v* && "${GITHUB_REF_NAME#v}" != "$version" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match manifest version $version"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          mkdir -p packages
+          for target in chrome edge firefox; do
+            node buildExtension.js "$target"
+            # zip the folder contents so manifest.json sits at the zip root
+            (cd "dist/$target" && zip -qr "../../packages/contextual-tab-groups-$version-$target.zip" .)
+          done
+          ls -l packages
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: contextual-tab-groups-${{ env.VERSION }}
+          path: packages/*.zip
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # only this job may create/update the release
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          path: packages
+          merge-multiple: true
+
+      - name: Attach zips to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" packages/*.zip --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" packages/*.zip --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes
+          fi

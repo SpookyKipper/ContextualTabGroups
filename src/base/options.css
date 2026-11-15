@@ -1,0 +1,319 @@
+/* Options page layout: tabs + group-first rules. Builds on html.css (dark theme, --primary purple). */
+
+body {
+  max-width: 640px;
+}
+
+h1 {
+  margin-bottom: 16px;
+}
+
+/* --- Top tabs --- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #2a2a2a;
+  margin-bottom: 20px;
+}
+
+.tabs .tab {
+  background: transparent;
+  color: #b8b8b8;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid transparent;
+  margin: 0;
+  height: 38px;
+  padding: 0 18px;
+  font-size: 0.8rem;
+}
+
+.tabs .tab:hover {
+  color: #fff;
+}
+
+.tabs .tab[aria-selected="true"] {
+  color: #fff;
+  border-bottom-color: #8f87ea;
+}
+
+.tabs .tab:focus-visible,
+.btn-ghost:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid #8f87ea;
+  outline-offset: 2px;
+}
+
+/* --- Welcome guide (landing view before a tab is picked) --- */
+.welcome {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 20px 24px;
+}
+
+/* Type steps ~1.25x: body 0.9rem -> h3 1.125rem -> h2 1.45rem */
+.welcome h2 {
+  color: #fff;
+  font-size: 1.45rem;
+  margin: 0 0 8px;
+}
+
+.welcome h3 {
+  color: #fff;
+  font-size: 1.125rem;
+  margin: 22px 0 6px;
+}
+
+.welcome p,
+.welcome li {
+  color: #cfcfcf;
+  font-size: 0.9rem;
+}
+
+.welcome p {
+  margin: 0;
+}
+
+.welcome-steps,
+.welcome-tips {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.welcome-steps li::marker {
+  color: #8f87ea;
+  font-weight: 600;
+}
+
+#welcome-start {
+  margin: 12px 0 0;
+}
+
+.welcome .welcome-privacy {
+  margin: 18px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #2a2a2a;
+  color: #a8a8a8;
+  font-size: 0.8rem;
+}
+
+/* --- Shared controls --- */
+select {
+  color-scheme: dark;
+  font: inherit;
+  font-size: 0.85rem;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: #222;
+  color: #e0e0e0;
+  max-width: 100%;
+}
+
+select:focus,
+input[type="text"]:focus-visible {
+  outline: 2px solid #8f87ea;
+  outline-offset: 1px;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #c9c9c9;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.btn-ghost:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.icon-btn {
+  background: transparent;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  flex: none;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.icon-btn img {
+  width: 15px;
+  height: 15px;
+}
+
+/* --- Groups --- */
+.groups-intro {
+  color: #b8b8b8;
+  font-size: 0.85rem;
+  margin: 0 0 12px;
+}
+
+.groups-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.groups-toolbar button {
+  margin: 0;
+}
+
+.empty {
+  color: #9a9a9a;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.group {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.group-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--swatch);
+}
+
+.swatch.none {
+  background: transparent;
+  border: 2px solid #777;
+  box-sizing: border-box;
+}
+
+.group-name {
+  font-weight: 600;
+  color: #fff;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.group-color {
+  color: #a8a8a8;
+  font-size: 0.8rem;
+  margin-right: auto;
+}
+
+.group-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.group-actions button {
+  margin: 0;
+}
+
+/* Inline edit row for a group (new or existing) */
+.group-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.group-form input[type="text"] {
+  flex: 1 1 180px;
+  width: auto;
+  height: 34px;
+  padding: 0 10px;
+}
+
+.group-form button {
+  margin: 0;
+}
+
+.group.is-new {
+  border-color: #8f87ea;
+}
+
+/* Domain rows */
+.domains {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  border-top: 1px solid #262626;
+}
+
+.domain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #222;
+}
+
+.domain-host {
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  min-width: 0;
+}
+
+.domain-override {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.domain-override .swatch {
+  width: 10px;
+  height: 10px;
+}
+
+.domain-empty {
+  color: #9a9a9a;
+  font-size: 0.85rem;
+  padding: 8px 0;
+}
+
+.add-domain {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.add-domain input[type="text"] {
+  flex: 1;
+  height: 34px;
+  padding: 0 10px;
+}
+
+.add-domain button {
+  margin: 0;
+  height: 34px;
+}
+
+.flash {
+  animation: flash 1.2s ease-out;
+}
+
+@keyframes flash {
+  from { background: rgba(143, 135, 234, 0.18); }
+  to { background: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash { animation: none; }
+}

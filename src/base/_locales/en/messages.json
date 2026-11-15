@@ -1,0 +1,268 @@
+{
+  "langCode": {
+    "message": "en"
+  },
+  "extName": {
+    "message": "Contextual Tab Groups - Auto create groups when opening a new tab"
+  },
+  "extNameAlt": {
+    "message": "Contextual Tab Groups - Group tabs by context"
+  },
+  "extShortName": {
+    "message": "Contextual Tab Groups"
+  },
+  "extDesc": {
+    "message": "Group tabs by context for you automatically. Inspired by Opera One."
+  },
+  "extDescShort": {
+    "message": "Group tabs by context for you automatically."
+  },
+  "cmdNewTabInGroup": {
+    "message": "New tab in Group / Create a new group"
+  },
+  "saveChanges": {
+    "message": "Save Changes"
+  },
+  "optionsTitle": {
+    "message": "Contextual Tab Groups Options"
+  },
+  "optDefaultName": {
+    "message": "Name for automatically created groups (Default)"
+  },
+  "optLeaveEmptyNone": {
+    "message": "Leave empty for none"
+  },
+  "optPlaceholders": {
+    "message": "Available Placeholders:"
+  },
+  "optSearchName": {
+    "message": "Name for automatically created groups (Search Engines)"
+  },
+  "optSearchLeaveEmpty": {
+    "message": "Leave empty to use default (off by default: group names may sync to your browser account)"
+  },
+  "optSupportedEngines": {
+    "message": "Supported Search Engines:"
+  },
+  "optStartpageNote": {
+    "message": "Note for Startpage:"
+  },
+  "optStartpage1": {
+    "message": "1. Experimental, may not work"
+  },
+  "optStartpage2": {
+    "message": "2. Please change \"HTTP request method\" to \"GET\" at"
+  },
+  "optAutoDisband": {
+    "message": "Auto Disband Groups with only 1 tab in it"
+  },
+  "optHotkey": {
+    "message": "Modify Open in current (new) Tab Group hotkey"
+  },
+  "optHotkeyDefault": {
+    "message": "Default: Alt+T"
+  },
+  "modifyShortcut": {
+    "message": "Modify Shortcut"
+  },
+  "optFirefoxNote": {
+    "message": "Firefox's menu bar may interfere with the default Alt+T shortcut. Please either:"
+  },
+  "optFirefox1": {
+    "message": "1. Change to another shortcut key yourself"
+  },
+  "optFirefox2a": {
+    "message": "2. Go to"
+  },
+  "optFirefox2b": {
+    "message": "and set"
+  },
+  "optFirefox2c": {
+    "message": "to"
+  },
+  "optVersion": {
+    "message": "Extension Version:"
+  },
+  "optionsSaved": {
+    "message": "Options saved."
+  },
+  "color_grey": {
+    "message": "grey"
+  },
+  "color_blue": {
+    "message": "blue"
+  },
+  "color_red": {
+    "message": "red"
+  },
+  "color_yellow": {
+    "message": "yellow"
+  },
+  "color_green": {
+    "message": "green"
+  },
+  "color_pink": {
+    "message": "pink"
+  },
+  "color_purple": {
+    "message": "purple"
+  },
+  "color_cyan": {
+    "message": "cyan"
+  },
+  "color_orange": {
+    "message": "orange"
+  },
+  "errInvalidHostname": {
+    "message": "- Invalid domain. Use a domain like github.com: letters, numbers, dots and hyphens, at least one dot, max 100 characters.\n- A full URL is fine too, the domain is taken from it.\n- Use Punycode (starting with xn--) for non-English domains."
+  },
+  "errInvalidColor": {
+    "message": "Invalid color."
+  },
+  "errNameRequired": {
+    "message": "Group name is required."
+  },
+  "popupIntro": {
+    "message": "Tab groups by context, automatic group creation. Inspired by Opera One."
+  },
+  "goToOptions": {
+    "message": "Go to Options"
+  },
+  "disbandAll": {
+    "message": "Disband all tab groups"
+  },
+  "areYouSure": {
+    "message": "Are you sure?"
+  },
+  "done": {
+    "message": "Done!"
+  },
+  "navBehavior": {
+    "message": "Behavior"
+  },
+  "navGroups": {
+    "message": "Groups"
+  },
+  "groupsIntro": {
+    "message": "A tab that opens a domain listed under a colored group is moved into that group (created in the window if missing). A group without color only sets the group name used for %domain%."
+  },
+  "newGroup": {
+    "message": "New group"
+  },
+  "groupNamePh": {
+    "message": "Group name"
+  },
+  "colorLabel": {
+    "message": "Group color"
+  },
+  "colorNoneShort": {
+    "message": "No color (name only)"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "deleteGroup": {
+    "message": "Delete group"
+  },
+  "deleteDomain": {
+    "message": "Remove $HOST$",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      }
+    }
+  },
+  "domainPh": {
+    "message": "Add domain, e.g. github.com"
+  },
+  "useGroupColor": {
+    "message": "Group color"
+  },
+  "overrideHint": {
+    "message": "Color override: used only when a tab from this domain creates the group"
+  },
+  "emptyGroups": {
+    "message": "No groups yet. Create one with “New group”."
+  },
+  "emptyDomains": {
+    "message": "No domains yet."
+  },
+  "errGroupExists": {
+    "message": "A group named “$NAME$” already exists.",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "confirmMoveDomain": {
+    "message": "$HOST$ is in group “$GROUP$”. Move it here?",
+    "placeholders": {
+      "host": {
+        "content": "$1"
+      },
+      "group": {
+        "content": "$2"
+      }
+    }
+  },
+  "confirmDeleteGroup": {
+    "message": "Delete group “$NAME$” and its $COUNT$ domain(s)?",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      },
+      "count": {
+        "content": "$2"
+      }
+    }
+  },
+  "welcomeTitle": {
+    "message": "Welcome to Contextual Tab Groups"
+  },
+  "welcomeIntro": {
+    "message": "This extension groups your tabs for you: a tab you open from another tab joins it in a group, and tabs going to sites you choose move into their own colored group."
+  },
+  "welcomeQuickStart": {
+    "message": "Quick start: your first group"
+  },
+  "welcomeStep1": {
+    "message": "Open the Groups tab and click “New group”."
+  },
+  "welcomeStep2": {
+    "message": "Pick a name and a color, e.g. “Dev”, yellow."
+  },
+  "welcomeStep3": {
+    "message": "Add a domain under it, e.g. github.com. Subdomains match too (gist.github.com)."
+  },
+  "welcomeStep4": {
+    "message": "Open github.com: the tab moves into the yellow “Dev” group by itself."
+  },
+  "welcomeStart": {
+    "message": "Create my first group"
+  },
+  "welcomeAlsoTitle": {
+    "message": "Also good to know"
+  },
+  "welcomeTip1": {
+    "message": "Open a link in a new tab and both tabs are grouped automatically."
+  },
+  "welcomeTip2": {
+    "message": "Alt+T opens a new tab inside the current tab's group."
+  },
+  "welcomeTip3": {
+    "message": "The Behavior tab sets automatic group names and whether single-tab groups are disbanded."
+  },
+  "welcomePrivacy": {
+    "message": "Everything stays on your device; the extension sends no data anywhere."
+  }
+}

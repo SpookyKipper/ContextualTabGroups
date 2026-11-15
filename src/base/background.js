@@ -1,4 +1,5 @@
 import punycode from "./punycode.js";
+import { getConfForHostname, getRuleForHostname, isRuleGroupTitle } from "./db.js";
 const isFirefox = chrome.runtime.getURL("").startsWith("moz-extension://");
 const isChrome = chrome.runtime.getURL("").startsWith("chrome-extension://");
 
@@ -12,134 +13,86 @@ if (isChrome) {
     genuineNewTabs.add(details.tabId);
   });
 }
-// Start of IndexedDB for Group Name Configurations
-
-var openDB = async () => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("GrpNameConf", 2);
-
-    request.onerror = (event) => {
-      reject(`Error opening database: ${event.target.errorCode}`);
-    };
-
-    request.onsuccess = (event) => {
-      const db = event.target.result;
-      resolve(db);
-    };
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-
-      // Delete existing object store if it exists
-      if (db.objectStoreNames.contains("GrpNameConf")) {
-        db.deleteObjectStore("GrpNameConf");
-      }
-
-      const objectStore = db.createObjectStore("GrpNameConf", {
-        keyPath: "hostname",
-        autoIncrement: false,
-      });
-      objectStore.createIndex("hostname", "hostname", { unique: true });
-      objectStore.createIndex("groupname", "groupname", { unique: false });
-      loadDefaultValues();
-    };
-  });
+// Start of Domain Rules (hostname -> group name + color) //
+const getRuleForUrl = async (url) => {
+  let hostname;
+  try {
+    const u = new URL(url);
+    if (u.protocol !== "http:" && u.protocol !== "https:") return null;
+    hostname = u.hostname;
+  } catch {
+    return null;
+  }
+  return getRuleForHostname(hostname);
 };
 
-async function loadDefaultValues() {
-  const db = await openDB();
-  const transaction = db.transaction(["GrpNameConf"], "readwrite");
-  const objectStore = transaction.objectStore("GrpNameConf");
+const isRuleGroup = async (groupId) => {
+  try {
+    const group = await chrome.tabGroups.get(groupId);
+    return await isRuleGroupTitle(group.title);
+  } catch (e) {
+    return false;
+  }
+};
 
-  objectStore.put({ hostname: "spooky.hk", groupname: "SpookyKipper" });
-  objectStore.put({ hostname: "spookysrv.com", groupname: "Spooky Services" });
-  objectStore.put({ hostname: "flow.spookysrv.com", groupname: "Flow" });
-  objectStore.put({ hostname: "ssl.com", groupname: "SSL.com" });
-  objectStore.put({
-    hostname: "bluearchive.nexon.com",
-    groupname: "Blue Archive",
-  });
-  objectStore.put({ hostname: "developer.mozilla.org", groupname: "MDN Docs" });
-  objectStore.put({ hostname: "gemini.google.com", groupname: "Gemini" });
-  objectStore.put({ hostname: "mail.google.com", groupname: "Gmail" });
-  objectStore.put({
-    hostname: "docs.google.com",
-    groupname: "Google Workspace",
-  });
-  objectStore.put({ hostname: "tw-pjsekai.com", groupname: "世界計劃" });
-}
+const applyRuleNow = async (tabId, retry = 0) => {
+  try {
+    await placeTabByRule(tabId);
+  } catch (e) {
+    // The tab strip is locked while the user drags a tab; retry like safeUngroupTab does
+    if (retry < 10 && String(e && e.message).includes("cannot be edited right now")) {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      return applyRuleNow(tabId, retry + 1);
+    }
+    throw e;
+  }
+};
 
-async function getGroupNameForHostname(hostname) {
-  const db = await openDB();
-  const transaction = db.transaction(["GrpNameConf"], "readonly");
-  const objectStore = transaction.objectStore("GrpNameConf");
+const placeTabByRule = async (tabId) => {
+  const tab = await chrome.tabs.get(tabId); // re-read: state may have changed while queued or retrying
+  if (tab.pinned) return;
+  const rule = await getRuleForUrl(tab.url);
+  if (!rule) return;
+  const win = await chrome.windows.get(tab.windowId);
+  if (win.type == "popup") return;
 
-  return new Promise((resolve, reject) => {
-    console.log(hostname);
+  const groups = await chrome.tabGroups.query({ windowId: tab.windowId });
+  const group = groups.find((g) => g.title === rule.groupname);
+  if (group) {
+    if (tab.groupId !== group.id) {
+      await chrome.tabs.group({ tabIds: [tab.id], groupId: group.id });
+    }
+  } else {
+    const groupId = await chrome.tabs.group({
+      tabIds: [tab.id],
+      createProperties: { windowId: tab.windowId },
+    });
+    await chrome.tabGroups.update(groupId, { title: rule.groupname, color: rule.color });
+  }
+};
 
-    // Try exact match first
-    const request = objectStore.get(hostname);
-
-    request.onsuccess = (event) => {
-      const result = event.target.result;
-      if (result) {
-        resolve(result.groupname);
-      } else {
-        // No exact match, try suffix matching
-        const parts = hostname.split(".");
-
-        // Generate all possible suffixes, from most specific to least
-        // For "a.edge.ms.com", try: "edge.ms.com", "ms.com"
-        const tryNextSuffix = (index) => {
-          if (index >= parts.length - 1) {
-            // No more suffixes to try
-            resolve(null);
-            return;
-          }
-
-          const suffix = parts.slice(index + 1).join(".");
-          const suffixRequest = objectStore.get(suffix);
-
-          suffixRequest.onsuccess = (event) => {
-            const suffixResult = event.target.result;
-            if (suffixResult) {
-              resolve(suffixResult.groupname);
-            } else {
-              // Try next suffix
-              tryNextSuffix(index + 1);
-            }
-          };
-
-          suffixRequest.onerror = (event) => {
-            reject(`Error retrieving data: ${event.target.error}`);
-          };
-        };
-
-        // Start trying suffixes
-        tryNextSuffix(0);
-      }
-    };
-
-    request.onerror = (event) => {
-      reject(`Error retrieving data: ${event.target.error}`);
-    };
-  });
-}
-// End IndexedDB functions //
+// ponytail: one global queue so two tabs hitting the same rule don't create two groups; per-window queues if it ever matters
+let ruleQueue = Promise.resolve();
+const applyRule = (tabId) => {
+  ruleQueue = ruleQueue
+    .then(() => applyRuleNow(tabId))
+    .catch((e) => console.error("Applying domain rule failed:", e));
+};
+// End Domain Rules //
 
 let tabMaps = new Map();
 
 // On extension startup, load all tabs into map. Prevents lone tab no ungrouped due to no previous tab data.
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((details) => {
   console.log("Extension installed or updated!");
+  // First install: open the options page, whose landing view is the welcome guide
+  if (details && details.reason === "install") chrome.runtime.openOptionsPage();
   console.log("Firefox: ", isFirefox, " Chrome: ", isChrome);
   chrome.tabs.query({}, function (tabs) {
     tabs.forEach(function (tab) {
       tabMaps.set(tab.id, tab);
     });
   });
-
-  loadDefaultValues();
 });
 
 // On updated, if tab was ungrouped, check if it was the last tab in the group and ungroup if so disband it
@@ -149,6 +102,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (typeof tabProp != "undefined" && tabProp.groupId >= 0) {
     disbandLoneGroup(tabProp.groupId);
   }
+
+  // Domain rules run only on URL changes (new tab's first navigation or navigation in an
+  // existing tab), so a tab the user ungroups manually is not pulled back while it stays put.
+  if (changeInfo.url) applyRule(tabId);
 
   setTimeout(() => {
     tabMaps.set(tabId, tab);
@@ -192,7 +149,10 @@ function disbandLoneGroup(groupId, retries = 0) {
       chrome.tabs.query({ groupId: groupId }, (tabs) => {
         // console.log(tabs);
         if (tabs.length === 1) {
-          safeUngroupTab(tabs[0].id);
+          // Rule groups may live with a single tab
+          isRuleGroup(groupId).then((ruleGroup) => {
+            if (!ruleGroup) safeUngroupTab(tabs[0].id);
+          });
         } else if (tabs.length === 2 && isFirefox && retries <= 100) {
           // Firefox takes a while to update
           setTimeout(() => {
@@ -289,11 +249,13 @@ const getSearchQueryUrlParam = (url) => {
 
 // Tab Group Naming Function //
 const nameTabGroup = async (groupId, url) => {
-  const customName = await getGroupNameForHostname(formatDomainTitle(url));
+  const conf = await getConfForHostname(formatDomainTitle(url));
+  const customName = conf ? conf.groupname : null;
   chrome.storage.sync.get(
     {
       auto_created_group_name: "%domain%",
-      auto_created_group_name_search_engine: "%search_query%",
+      // Off by default: group names can sync to the browser account
+      auto_created_group_name_search_engine: "",
     },
     (items) => {
       let group_name_processed = "";
@@ -418,8 +380,11 @@ const groupTabsAction = (tab) => {
     }
   }
 
-  function proceedGroupTab() {
+  async function proceedGroupTab() {
     if (tab.openerTabId && checkurl() && tab.groupId === -1) {
+      // Rule-matching tabs are placed by applyRule (tabs.onUpdated), which wins over opener grouping
+      const url = isFirefox && tab.url === "about:blank" ? tab.title : tab.pendingUrl || tab.url;
+      if (await getRuleForUrl(url)) return;
       chrome.tabs.get(tab.openerTabId, (openerTab) => {
         if (!openerTab.pinned) {
           chrome.tabs.group(

@@ -3,123 +3,112 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contextual Tab Groups Options</title>
+    <title data-i18n="optionsTitle">Contextual Tab Groups Options</title>
     <link rel="stylesheet" href="html.css" />
+    <link rel="stylesheet" href="options.css" />
   </head>
   <body>
-    <h1>Contextual Tab Groups Options</h1>
+    <h1 data-i18n="optionsTitle">Contextual Tab Groups Options</h1>
 
-    <div class="option-container">
-      <label for="auto_created_group_name">
-        Name for automatically created groups (Default)
-        <input type="text" id="auto_created_group_name" value="%domain%" />
-        <p class="note">Leave empty for none</p>
-        <p class="note">Available Placeholders: <code>%domain%</code></p>
-      </label>
-    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-behavior" aria-controls="panel-behavior" aria-selected="false" data-i18n="navBehavior">Behavior</button>
+      <button class="tab" role="tab" id="tab-groups" aria-controls="panel-groups" aria-selected="false" data-i18n="navGroups">Groups</button>
+    </nav>
 
-    <div class="option-container">
-      <label for="auto_created_group_name_search_engine">
-        Name for automatically created groups (Search Engines)
-        <input
-          type="text"
-          id="auto_created_group_name_search_engine"
-          value="%search_query%"
-        />
-        <p class="note">Leave empty to use default</p>
-        <p class="note">
-          Available Placeholders: <code>%search_query%</code>,
-          <code>%domain%</code>
-        </p>
-        <p></p>
-        <p class="note">
-          Supported Search Engines:<br />Google, Bing, BraveSearch, Ecosia,
-          DuckDuckGo, Ask.com, Yahoo, Startpage, Baidu, YouTube
-        </p>
-        <p></p>
-        <p class="note">
-          Note for Startpage:<br />
-          1. Experimental, may not work<br />
-          2. Please change "HTTP request method" to "GET" at
-          <a href="https://www.startpage.com/do/settings" target="_blank"
-            >https://www.startpage.com/do/settings</a
-          >.
-        </p>
-      </label>
-    </div>
+    <!-- Landing view (no tab selected yet): what the extension does + quick start -->
+    <section class="welcome" id="pick-hint" aria-labelledby="welcome-title">
+      <h2 id="welcome-title" data-i18n="welcomeTitle">Welcome to Contextual Tab Groups</h2>
+      <p data-i18n="welcomeIntro">This extension groups your tabs for you.</p>
 
-    <div class="option-container">
-      Modify %domain% placeholder behavior
-      <button id="openGrpNameConf">Configure</button>
-    </div>
-    <div class="option-container">
-      <label>
-        <input type="checkbox" id="auto_disband_group" />
-        Auto Disband Groups with only 1 tab in it
-      </label>
-    </div>
+      <h3 data-i18n="welcomeQuickStart">Quick start: your first group</h3>
+      <ol class="welcome-steps">
+        <li><span data-i18n="welcomeStep1">Open the Groups tab and click “New group”.</span></li>
+        <li><span data-i18n="welcomeStep2">Pick a name and a color, e.g. “Dev”, yellow.</span></li>
+        <li><span data-i18n="welcomeStep3">Add a domain under it, e.g. github.com.</span></li>
+        <li><span data-i18n="welcomeStep4">Open github.com: the tab moves into the yellow “Dev” group by itself.</span></li>
+      </ol>
+      <button id="welcome-start" data-i18n="welcomeStart">Create my first group</button>
 
-    <div class="option-container">
-      Modify Open in current (new) Tab Group hotkey<br />
-      Default: Alt+T
-      <button id="openKeyboardShortcut">Modify Shortcut</button>
-      <p class="note" id="firefoxNote">
-        Firefox's menu bar may interfere with the default Alt+T shortcut. Please
-        either:<br />
-        1. Change to another shortcut key yourself<br />
-        2. Go to <code>about:config</code> and set
-        <code>ui.key.menuAccessKey</code> to <code>0</code>
-      </p>
-    </div>
+      <h3 data-i18n="welcomeAlsoTitle">Also good to know</h3>
+      <ul class="welcome-tips">
+        <li data-i18n="welcomeTip1">Open a link in a new tab and both tabs are grouped automatically.</li>
+        <li data-i18n="welcomeTip2">Alt+T opens a new tab inside the current tab's group.</li>
+        <li data-i18n="welcomeTip3">The Behavior tab sets automatic group names and disbanding of single-tab groups.</li>
+      </ul>
+      <p class="note welcome-privacy" data-i18n="welcomePrivacy">Everything stays on your device; the extension sends no data anywhere.</p>
+    </section>
 
-    <div class="option-container">
-      <div>
-        Extension Version: <span id="version">Failed to get version.</span>
+    <section id="panel-behavior" role="tabpanel" aria-labelledby="tab-behavior" hidden>
+      <div class="option-container">
+        <label for="auto_created_group_name">
+          <span data-i18n="optDefaultName">Name for automatically created groups (Default)</span>
+          <input type="text" id="auto_created_group_name" value="%domain%" />
+          <p class="note" data-i18n="optLeaveEmptyNone">Leave empty for none</p>
+          <p class="note"><span data-i18n="optPlaceholders">Available Placeholders:</span> <code>%domain%</code></p>
+        </label>
       </div>
-    </div>
 
-    <div id="status" class="sa-text"></div>
+      <div class="option-container">
+        <label for="auto_created_group_name_search_engine">
+          <span data-i18n="optSearchName">Name for automatically created groups (Search Engines)</span>
+          <input type="text" id="auto_created_group_name_search_engine" value="" />
+          <p class="note" data-i18n="optSearchLeaveEmpty">Leave empty to use default (off by default: group names may sync to your browser account)</p>
+          <p class="note">
+            <span data-i18n="optPlaceholders">Available Placeholders:</span> <code>%search_query%</code>,
+            <code>%domain%</code>
+          </p>
+          <p class="note">
+            <span data-i18n="optSupportedEngines">Supported Search Engines:</span><br />Google, Bing, BraveSearch, Ecosia,
+            DuckDuckGo, Ask.com, Yahoo, Startpage, Baidu, YouTube
+          </p>
+          <p class="note">
+            <span data-i18n="optStartpageNote">Note for Startpage:</span><br />
+            <span data-i18n="optStartpage1">1. Experimental, may not work</span><br />
+            <span data-i18n="optStartpage2">2. Please change "HTTP request method" to "GET" at</span>
+            <a href="https://www.startpage.com/do/settings" target="_blank">https://www.startpage.com/do/settings</a>
+          </p>
+        </label>
+      </div>
 
-    <button id="save" style="width: 100%">Save Changes</button>
+      <div class="option-container">
+        <label>
+          <input type="checkbox" id="auto_disband_group" />
+          <span data-i18n="optAutoDisband">Auto Disband Groups with only 1 tab in it</span>
+        </label>
+      </div>
 
-    <!-- Fullscreen iframe container -->
-    <div
-      id="iframeContainer"
-      style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.9);
-        z-index: 9999;
-      "
-    >
-      <button
-        id="closeIframe"
-        style="
-          position: absolute;
-          right: calc(2.5vw + 10px);
-          top: calc(2.5vh + 10px);
-        "
-      >
-        Close
-      </button>
-      <iframe
-        id="configIframe"
-        style="
-          width: 95vw;
-          height: 95vh;
-          border: none;
-          margin: 2.5vh 2.5vw;
-          background-color: #100f10;
-          border-radius: 0.5rem;
-          border: 2px solid #6f65dc;
-        "
-      ></iframe>
-    </div>
+      <div class="option-container">
+        <span data-i18n="optHotkey">Modify Open in current (new) Tab Group hotkey</span><br />
+        <span data-i18n="optHotkeyDefault">Default: Alt+T</span>
+        <button id="openKeyboardShortcut" data-i18n="modifyShortcut">Modify Shortcut</button>
+        <p class="note" id="firefoxNote">
+          <span data-i18n="optFirefoxNote">Firefox's menu bar may interfere with the default Alt+T shortcut. Please either:</span><br />
+          <span data-i18n="optFirefox1">1. Change to another shortcut key yourself</span><br />
+          <span data-i18n="optFirefox2a">2. Go to</span> <code>about:config</code>
+          <span data-i18n="optFirefox2b">and set</span>
+          <code>ui.key.menuAccessKey</code> <span data-i18n="optFirefox2c">to</span> <code>0</code>
+        </p>
+      </div>
 
+      <div class="option-container">
+        <span data-i18n="optVersion">Extension Version:</span> <span id="version"></span>
+      </div>
+
+      <div id="status" class="sa-text" role="status"></div>
+      <button id="save" style="width: 100%" data-i18n="saveChanges">Save Changes</button>
+    </section>
+
+    <section id="panel-groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+      <p class="groups-intro" data-i18n="groupsIntro">Tabs opening a domain listed under a colored group are moved into that group.</p>
+      <div class="groups-toolbar">
+        <button id="new-group" data-i18n="newGroup">New group</button>
+      </div>
+      <div id="new-group-slot"></div>
+      <div id="group-list"></div>
+    </section>
+
+    <script src="i18n.js"></script>
     <script src="options.js"></script>
+    <script type="module" src="groups.js"></script>
   </body>
 </html>

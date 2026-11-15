@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "version": "1.7.3",
+  "default_locale": "en",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icons/tab_islands.png"
@@ -19,13 +20,16 @@
     "unlimitedStorage",
     "webNavigation"
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self'"
+  },
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
   },
   "commands": {
     "newTabInGroup": {
-      "description": "New tab in Group / Create a new group",
+      "description": "__MSG_cmdNewTabInGroup__",
       "suggested_key": {
         "default": "Alt+T"
       }

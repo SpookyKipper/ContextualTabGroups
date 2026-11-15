@@ -1,7 +1,7 @@
 // buildExtension.js
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 function copyDirectorySync(sourceDir, destinationDir) {
   try {
@@ -55,6 +55,9 @@ fs.writeFileSync(
 
 // Copy source files
 copyDirectorySync('src/base', outDir);
+
+// GPL-3.0: ship the license text inside every package
+fs.copyFileSync(path.join(__dirname, "LICENSE"), path.join(outDir, "LICENSE"));
 
 // Copy target-specific source files
 if (target === "chrome" || target === "edge") {
