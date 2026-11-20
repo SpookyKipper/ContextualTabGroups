@@ -86,10 +86,9 @@ Supported Search Engines: Google, Bing, BraveSearch, Ecosia, DuckDuckGo, Ask.com
 - A toggle to whether automatically ungroup tab groups with only 1 tab in it
 
 ## Building
-1. run `npm install`<br>
-2. run `node buildExtension.js <browser>`
-3. Unpacked extension will be available at `dist/<browser>`
-4. Pack the extension as ZIP via your File Manager
+1. run `node buildExtension.js <browser>`
+2. Unpacked extension will be available at `dist/<browser>`
+3. Pack the extension as ZIP via your File Manager
 
 Supported browsers are `chrome`, `firefox`, `edge`<br>
 Any other chromium-based browsers not listed here should also use `chrome` when building.
