@@ -56,6 +56,8 @@ fs.writeFileSync(
 // Copy source files
 copyDirectorySync('src/base', outDir);
 
+fs.copyFileSync(path.join(__dirname, "LICENSE"), path.join(outDir, "LICENSE"));
+
 // Copy target-specific source files
 if (target === "chrome" || target === "edge") {
   copyDirectorySync('src/chromium', outDir);
