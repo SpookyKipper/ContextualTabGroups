@@ -63,8 +63,9 @@ Changable/deletable via `chrome://extensions/shortcuts`
 | ------------- | ------------- |
 | Active Tab already in group: <br> Add to existing gruop | ![AltPlusT_InGroup](https://github.com/user-attachments/assets/514657e2-44a1-456c-9875-4f14bd333b8d)
 
-
-
+## Privacy
+This extension does not collect any data from you, it does not even connect to the internet. However, your browser may sync tab groups data to the cloud if you have enabled browser sync. If this is a concern you may disable it from your browser settings.<br>
+[More info: https://advisories.spookysrv.com/advisories/SSSA-2026-148507]
 
 ## Extension Options
 Settings are available via Extension Popup -> "Go to options" button
